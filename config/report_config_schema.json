@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["school", "pdf_formatting", "excel_formatting"],
+  "properties": {
+    "school": {
+      "type": "object",
+      "required": ["name", "p_o_box", "contact", "motto", "website", "logo_path", "report_logos"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "p_o_box": { "type": "string", "minLength": 1 },
+        "contact": { "type": "string", "minLength": 1 },
+        "motto": { "type": "string", "minLength": 1 },
+        "website": { "type": "string", "minLength": 1 },
+        "logo_path": { "type": "string" },
+        "report_logos": {
+          "type": "object",
+          "properties": {
+            "student_summary": { "type": "string" },
+            "class_summary": { "type": "string" },
+            "defaulters": { "type": "string" },
+            "surplus": { "type": "string" },
+            "term_summary": { "type": "string" },
+            "issued_summary": { "type": "string" },
+            "overview": { "type": "string" },
+            "chart": { "type": "string" },
+            "stream_ream": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "pdf_formatting": {
+      "type": "object",
+      "required": ["header_font", "header_font_size", "subheader_font", "subheader_font_size", "table_font", "table_font_size", "header_color", "table_header_color", "table_row_color", "border_color", "page_margins", "footer", "report_headers"],
+      "properties": {
+        "header_font": { "type": "string", "enum": ["Helvetica", "Helvetica-Bold", "Times-Roman", "Times-Bold", "Courier"] },
+        "header_font_size": { "type": "integer", "minimum": 10 },
+        "subheader_font": { "type": "string", "enum": ["Helvetica", "Helvetica-Bold", "Times-Roman", "Times-Bold", "Courier"] },
+        "subheader_font_size": { "type": "integer", "minimum": 8 },
+        "table_font": { "type": "string", "enum": ["Helvetica", "Helvetica-Bold", "Times-Roman", "Times-Bold", "Courier"] },
+        "table_font_size": { "type": "integer", "minimum": 8 },
+        "header_color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "table_header_color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "table_row_color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "border_color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "page_margins": {
+          "type": "object",
+          "required": ["top", "bottom", "left", "right"],
+          "properties": {
+            "top": { "type": "integer", "minimum": 0 },
+            "bottom": { "type": "integer", "minimum": 0 },
+            "left": { "type": "integer", "minimum": 0 },
+            "right": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "footer": {
+          "type": "object",
+          "required": ["custom_text", "additional_fields", "font", "font_size", "text_color", "alignment"],
+          "properties": {
+            "custom_text": { "type": "string", "minLength": 1 },
+            "additional_fields": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["motto", "website", "contact", "name", "p_o_box"] }
+            },
+            "font": { "type": "string", "enum": ["Helvetica", "Helvetica-Bold", "Times-Roman", "Times-Bold", "Courier"] },
+            "font_size": { "type": "integer", "minimum": 6 },
+            "text_color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+            "alignment": { "type": "string", "enum": ["left", "center", "right"] }
+          },
+          "additionalProperties": false
+        },
+        "report_headers": {
+          "type": "object",
+          "properties": {
+
+            "student_summary": { "$ref": "#/definitions/header_layout" },
+            "class_summary": { "$ref": "#/definitions/header_layout" },
+            "defaulters": { "$ref": "#/definitions/header_layout" },
+            "surplus": { "$ref": "#/definitions/header_layout" },
+            "term_summary": { "$ref": "#/definitions/header_layout" },
+            "issued_summary": { "$ref": "#/definitions/header_layout" },
+            "overview": { "$ref": "#/definitions/header_layout" },
+            "chart": { "$ref": "#/definitions/header_layout" },
+            "stream_ream":{ "$ref": "#/definitions/header_layout" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "excel_formatting": {
+      "type": "object",
+      "required": ["header_font", "header_font_size", "header_bold", "cell_font", "cell_font_size", "header_background_color", "header_text_color", "border_color"],
+      "properties": {
+        "header_font": { "type": "string", "minLength": 1 },
+        "header_font_size": { "type": "integer", "minimum": 8 },
+        "header_bold": { "type": "boolean" },
+        "cell_font": { "type": "string", "minLength": 1 },
+        "cell_font_size": { "type": "integer", "minimum": 8 },
+        "header_background_color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "header_text_color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "border_color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "definitions": {
+    "header_layout": {
+      "type": "object",
+      "required": ["logo_position", "text_alignment", "logo_width", "logo_height"],
+      "properties": {
+        "logo_position": { "type": "string", "enum": ["left", "center", "right"] },
+        "text_alignment": { "type": "string", "enum": ["left", "center", "right"] },
+        "logo_width": { "type": "number", "minimum": 0.5, "maximum": 3 },
+        "logo_height": { "type": "number", "minimum": 0.5, "maximum": 3 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

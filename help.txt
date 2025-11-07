@@ -1,0 +1,112 @@
+===============================================================================
+               REAM MANAGEMENT SYSTEM - USER GUIDE
+===============================================================================
+
+Follow these steps IN ORDER to ensure accurate data and avoid errors.
+
+───────────────────────────────────────────────────────────────────────────────
+STEP 1: UPDATE REAM REQUIREMENTS (Admin Only)
+───────────────────────────────────────────────────────────────────────────────
+Before importing students or reams, set how many reams each form must bring.
+
+1. Go to → Settings Tab
+2. Find section: "Reams Required Per Form"
+3. Enter values for:
+   • Form 1: 2
+   • Form 2: 2
+   • Form 3: 2
+   • Form 4: 2
+   • Grade 10: 2
+   • Grade 11: 2
+   • Grade 12: 2
+   (Example: Form 1 = 2 reams per year)
+4. Click "Save Settings"
+
+→ This sets CUMULATIVE targets:
+   • Form 1 → 2
+   • Form 2 → 4 (2+2)
+   • Form 3 → 6 (2+2+2)
+   • Form 4 → 8 (2+2+2+2)
+
+Why? So defaulters report and student status are correct.
+
+───────────────────────────────────────────────────────────────────────────────
+STEP 2: UPLOAD STUDENTS (Admin/Staff)
+───────────────────────────────────────────────────────────────────────────────
+Use Excel template with EXACT column names:
+
+| Admission No | Name       | Form     | Stream | Total Required |
+|--------------|------------|----------|--------|----------------|
+| 4523         | John Doe   | Form 1   | A      |                |
+| 4338         | Jane Smith | Form 2   | B      |                |
+
+Rules:
+• "Total Required" is OPTIONAL → app uses cumulative value from Settings
+• Only first 4 columns required
+• Admission No must be unique
+• Form must match: Form 1, Form 2, ..., Grade 12
+
+1. Go to → Students Tab
+2. Click "Import Students from Excel"
+3. Select your file
+4. Wait for success message
+
+→ Students now appear with correct "Total Required" and "Remaining"
+
+───────────────────────────────────────────────────────────────────────────────
+STEP 3: UPLOAD REAMS BROUGHT (Admin/Staff)
+───────────────────────────────────────────────────────────────────────────────
+Use Excel template:
+
+| Admission No | Quantity | Date Brought |
+|--------------|----------|--------------|
+| 4523         | 1        | 2025-03-25   |
+| 4338         | 2        | 2025-03-26   |
+
+Rules:
+• Date format: YYYY-MM-DD
+• Quantity > 0
+• Admission No must exist in Students
+• Term auto-detected (Jan-Apr=Term1, etc.)
+
+1. Go to → Reams Tab
+2. Click "Import Reams from Excel"
+3. Select file
+4. Progress bar shows live status
+
+→ If any Admission No is missing:
+   • Import continues
+   • PDF report generated
+   • You choose where to save it
+   • PDF auto-opens
+
+───────────────────────────────────────────────────────────────────────────────
+STEP 4: VIEW REPORTS
+───────────────────────────────────────────────────────────────────────────────
+Go to → Reports Tab
+
+• Defaulters: Students who brought < required
+• Class Summary: % achieved per form
+• Stock Summary: Purchased vs Issued vs Brought
+
+All reports use CUMULATIVE logic.
+
+───────────────────────────────────────────────────────────────────────────────
+TIPS TO AVOID ERRORS
+───────────────────────────────────────────────────────────────────────────────
+1. Always update Settings FIRST
+2. Use Excel templates (copy from this file)
+3. Never edit database directly
+4. Check "Missing Students" PDF if import skips rows
+5. Backup database weekly (Settings → Backup)
+
+───────────────────────────────────────────────────────────────────────────────
+SUPPORT
+───────────────────────────────────────────────────────────────────────────────
+• Logs: logs/reams_tab.log
+• Help: This file (help.txt)
+• Contact: [Your School IT / Admin]
+
+===============================================================================
+Thank you for keeping ream records accurate!
+===============================================================================

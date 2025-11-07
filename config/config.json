@@ -1,0 +1,22 @@
+{
+    "database_path": "database/ream_management.db",
+    "ui_theme": {
+        "appearance_mode": "dark",
+        "color_theme": "blue"
+    },
+    "logging": {
+        "level": "INFO",
+        "file": "logs/main.log"
+    },
+    "features": {
+        "undo_enabled": false,
+        "sample_data_enabled": true,
+        "auto_promotion_enabled": true,
+        "auto_promotion_schedule": {
+            "month": 12,
+            "day": 31,
+            "hour": 23,
+            "minute": 55
+        }
+    }
+}
