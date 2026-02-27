@@ -1,0 +1,397 @@
+2026-02-27 17:33:13,534 - INFO - generated new fontManager
+2026-02-27 17:33:14,826 - INFO - Using logs directory: logs
+2026-02-27 17:33:14,833 - INFO - Initializing ConnectionPool for database/ream_management.db with max_connections=25
+2026-02-27 17:33:14,833 - INFO - Initialized connection pool for database/ream_management.db with 25 max connections
+2026-02-27 17:33:50,881 - INFO - Production database schema v1.0.0 initialized securely.
+2026-02-27 17:33:50,886 - INFO - Stock reconciled.
+2026-02-27 17:33:50,886 - INFO - Database fully initialized at database/ream_management.db
+2026-02-27 17:33:50,886 - INFO - Database initialised at database/ream_management.db
+2026-02-27 17:33:50,886 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:33:50,890 - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-27 17:33:50,910 - INFO - Added job "Year-end Student Auto-Promotion" to job store "default"
+2026-02-27 17:33:50,910 - INFO - Scheduler started
+2026-02-27 17:33:50,913 - INFO - Auto-promotion scheduled for 12/31 at 23:55
+2026-02-27 17:33:50,914 - INFO - Launching GUI
+2026-02-27 17:33:51,354 - INFO - Initializing MainWindow
+2026-02-27 17:33:51,357 - INFO - Set theme: light/green
+2026-02-27 17:33:51,357 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:33:51,546 - INFO - Added placeholder tab with scrollable frame: Students
+2026-02-27 17:33:51,553 - INFO - Added placeholder tab with scrollable frame: Reams
+2026-02-27 17:33:51,559 - INFO - Added placeholder tab with scrollable frame: Issues
+2026-02-27 17:33:51,566 - INFO - Added placeholder tab with scrollable frame: Reports
+2026-02-27 17:33:51,571 - INFO - Added placeholder tab with scrollable frame: Users
+2026-02-27 17:33:51,586 - INFO - Initializing LoginWindow
+2026-02-27 17:33:51,671 - INFO - Auto-filled login for admin
+2026-02-27 17:33:51,671 - INFO - LoginWindow UI initialized
+2026-02-27 17:33:51,673 - INFO - LoginWindow shown, MainWindow withdrawn
+2026-02-27 17:33:58,051 - INFO - Login OK: admin
+2026-02-27 17:33:58,109 - INFO - Welcome, admin (admin)
+2026-02-27 17:33:58,116 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:33:58,117 - INFO - ReportManager created after login
+2026-02-27 17:33:58,446 - INFO - Login OK: admin
+2026-02-27 17:33:58,447 - INFO - ReportManager: User 'admin' logged in
+2026-02-27 17:33:58,452 - INFO - ReportManager session set for admin using password
+2026-02-27 17:33:58,453 - INFO - ReportManager session set for admin using hash fallback
+2026-02-27 17:33:58,455 - INFO - ReportManager session set for admin
+2026-02-27 17:33:58,456 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:33:58,887 - ERROR - Error fetching all students: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:33:58,889 - INFO - Error loading students: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:33:58,889 - ERROR - Load error: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:11,383 - ERROR - Error loading students: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:11,383 - INFO - StudentsTab GUI initialized
+2026-02-27 17:34:11,387 - INFO - Initialized StudentsTab with username=admin, role=admin
+2026-02-27 17:34:11,394 - INFO - StudentsTab initialized; data will load after login
+2026-02-27 17:34:11,394 - INFO - Initialized Students tab with username=admin, role=admin
+2026-02-27 17:34:11,395 - ERROR - Error fetching all students: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:11,395 - INFO - Error loading students: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:11,396 - ERROR - Load error: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:13,856 - ERROR - Error loading students: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:13,858 - INFO - Refreshed data for Students tab
+2026-02-27 17:34:13,873 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:34:13,874 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:34:14,344 - ERROR - Error fetching all ream records: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:16,943 - ERROR - Error loading records: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:16,944 - INFO - ReamsTab GUI initialized
+2026-02-27 17:34:16,946 - INFO - Initialized ReamsTab with username=admin, role=admin
+2026-02-27 17:34:16,947 - INFO - ReamsTab initialized; data will load after login
+2026-02-27 17:34:16,947 - INFO - Initialized Reams tab with username=admin, role=admin
+2026-02-27 17:34:16,947 - ERROR - Error fetching all ream records: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:17,547 - ERROR - Error loading records: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:17,550 - INFO - Refreshed data for Reams tab
+2026-02-27 17:34:17,561 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:34:17,562 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:34:17,562 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:34:17,563 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:34:17,563 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:34:17,722 - ERROR - Error fetching issue records: 'IssueManager' object has no attribute 'db_pool'
+2026-02-27 17:34:18,244 - ERROR - Error loading issues: 'IssueManager' object has no attribute 'db_pool'
+2026-02-27 17:34:18,248 - INFO - Error loading issues: 'IssueManager' object has no attribute 'db_pool'
+2026-02-27 17:34:18,248 - ERROR - Error loading issues: 'IssueManager' object has no attribute 'db_pool'
+2026-02-27 17:34:18,258 - INFO - IssuesTab GUI initialized
+2026-02-27 17:34:18,258 - INFO - Initializing IssuesTab with username=admin, role=admin
+2026-02-27 17:34:18,259 - INFO - IssuesTab initialized; data will load after login
+2026-02-27 17:34:18,259 - INFO - Initialized Issues tab with username=admin, role=admin
+2026-02-27 17:34:18,260 - ERROR - Error fetching issue records: 'IssueManager' object has no attribute 'db_pool'
+2026-02-27 17:34:19,049 - ERROR - Error loading issues: 'IssueManager' object has no attribute 'db_pool'
+2026-02-27 17:34:19,052 - INFO - Error loading issues: 'IssueManager' object has no attribute 'db_pool'
+2026-02-27 17:34:19,052 - ERROR - Error loading issues: 'IssueManager' object has no attribute 'db_pool'
+2026-02-27 17:34:19,053 - INFO - Refreshed IssuesTab data
+2026-02-27 17:34:19,068 - INFO - Refreshed IssuesTab data
+2026-02-27 17:34:19,070 - INFO - Refreshed data for Issues tab
+2026-02-27 17:34:19,083 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:34:19,095 - INFO - Successfully validated report_config.json
+2026-02-27 17:34:19,158 - ERROR - Error fetching streams: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:19,410 - INFO - ReportsTab GUI initialized
+2026-02-27 17:34:19,410 - INFO - Initializing ReportsTab with username=admin, role=admin
+2026-02-27 17:34:19,413 - INFO - ReportsTab initialized; data will load after login
+2026-02-27 17:34:19,413 - INFO - Initialized Reports tab with username=admin, role=admin
+2026-02-27 17:34:19,414 - INFO - ReportsTab user updated: admin (admin)
+2026-02-27 17:34:19,415 - INFO - ReportsTab authorized as admin (admin)
+2026-02-27 17:34:19,415 - ERROR - Error fetching streams: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:19,416 - INFO - Refreshed ReportsTab data
+2026-02-27 17:34:19,431 - INFO - Refreshed ReportsTab data
+2026-02-27 17:34:19,432 - INFO - Refreshed data for Reports tab
+2026-02-27 17:34:19,444 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:34:19,503 - INFO - All users fetched by admin
+2026-02-27 17:34:19,509 - INFO - Loaded 1 user records
+2026-02-27 17:34:19,510 - INFO - Loaded 1 user records for user admin
+2026-02-27 17:34:19,555 - INFO - UserTab GUI initialized
+2026-02-27 17:34:19,556 - INFO - Initialized UserTab with username=admin, role=admin
+2026-02-27 17:34:19,558 - INFO - UserTab initialized; data will load after login
+2026-02-27 17:34:19,559 - INFO - Initialized Users tab with username=admin, role=admin
+2026-02-27 17:34:19,577 - INFO - All users fetched by admin
+2026-02-27 17:34:19,583 - INFO - Loaded 1 user records
+2026-02-27 17:34:19,584 - INFO - Loaded 1 user records for user admin
+2026-02-27 17:34:19,589 - INFO - Refreshed data for Users tab
+2026-02-27 17:34:19,628 - ERROR - Error generating stock summary: 'ReportManager' object has no attribute 'db_pool'
+2026-02-27 17:34:19,629 - INFO - Error updating stock overview: 'ReportManager' object has no attribute 'db_pool'
+2026-02-27 17:34:19,630 - ERROR - Error updating stock overview: 'ReportManager' object has no attribute 'db_pool'
+2026-02-27 17:34:19,707 - INFO - Started fade-in animation for Students
+2026-02-27 17:34:19,707 - ERROR - Error fetching all students: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:19,710 - INFO - Error loading students: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:19,710 - ERROR - Load error: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:19,833 - ERROR - Error generating stock summary: 'ReportManager' object has no attribute 'db_pool'
+2026-02-27 17:34:19,835 - INFO - Error updating stock overview: 'ReportManager' object has no attribute 'db_pool'
+2026-02-27 17:34:19,836 - ERROR - Error updating stock overview: 'ReportManager' object has no attribute 'db_pool'
+2026-02-27 17:34:21,316 - ERROR - Error loading students: 'NoneType' object has no attribute 'get_connection'
+2026-02-27 17:34:21,320 - INFO - Refreshed data for Students tab
+2026-02-27 17:34:21,332 - INFO - Switched to Students tab
+2026-02-27 17:34:21,332 - INFO - MainWindow deiconified and initialized after login
+2026-02-27 17:34:21,333 - INFO - Auto-login successful for admin
+2026-02-27 17:34:21,333 - INFO - Auto-login: admin
+2026-02-27 17:36:37,751 - INFO - Opened help.txt: C:\Users\Harry\Ream_Management_System\help.txt
+2026-02-27 17:44:16,220 - INFO - User admin logged out
+2026-02-27 17:44:16,220 - INFO - User admin logged out
+2026-02-27 17:44:16,290 - INFO - Initializing LoginWindow
+2026-02-27 17:44:16,347 - INFO - Auto-filled login for admin
+2026-02-27 17:44:16,347 - INFO - LoginWindow UI initialized
+2026-02-27 17:44:16,348 - INFO - Logged out, showing login window
+2026-02-27 17:44:44,593 - INFO - Scheduler has been shut down
+2026-02-27 17:44:44,624 - INFO - Closed all connections in pool
+2026-02-27 17:44:55,496 - INFO - Using logs directory: logs
+2026-02-27 17:44:55,498 - INFO - Initializing ConnectionPool for database/ream_management.db with max_connections=25
+2026-02-27 17:44:55,499 - INFO - Initialized connection pool for database/ream_management.db with 25 max connections
+2026-02-27 17:45:08,567 - INFO - Production database schema v1.0.0 initialized securely.
+2026-02-27 17:45:08,571 - INFO - Stock reconciled.
+2026-02-27 17:45:08,572 - INFO - Database fully initialized at database/ream_management.db
+2026-02-27 17:45:08,572 - INFO - Database initialised at database/ream_management.db
+2026-02-27 17:45:08,573 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:45:08,576 - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-27 17:45:08,577 - INFO - Added job "Year-end Student Auto-Promotion" to job store "default"
+2026-02-27 17:45:08,577 - INFO - Scheduler started
+2026-02-27 17:45:08,579 - INFO - Auto-promotion scheduled for 12/31 at 23:55
+2026-02-27 17:45:08,579 - INFO - Launching GUI
+2026-02-27 17:45:08,677 - INFO - Initializing MainWindow
+2026-02-27 17:45:08,678 - INFO - Set theme: light/green
+2026-02-27 17:45:08,679 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:45:08,859 - INFO - Added placeholder tab with scrollable frame: Students
+2026-02-27 17:45:08,865 - INFO - Added placeholder tab with scrollable frame: Reams
+2026-02-27 17:45:08,871 - INFO - Added placeholder tab with scrollable frame: Issues
+2026-02-27 17:45:08,876 - INFO - Added placeholder tab with scrollable frame: Reports
+2026-02-27 17:45:08,884 - INFO - Added placeholder tab with scrollable frame: Users
+2026-02-27 17:45:08,895 - INFO - Initializing LoginWindow
+2026-02-27 17:45:08,943 - INFO - Auto-filled login for admin
+2026-02-27 17:45:08,943 - INFO - LoginWindow UI initialized
+2026-02-27 17:45:08,945 - INFO - LoginWindow shown, MainWindow withdrawn
+2026-02-27 17:45:28,514 - INFO - Login OK: admin
+2026-02-27 17:45:28,519 - INFO - Remembered user: admin (admin)
+2026-02-27 17:45:28,519 - INFO - User admin logged in successfully with role admin
+2026-02-27 17:45:28,523 - INFO - User admin logged in successfully with role admin
+2026-02-27 17:45:28,539 - INFO - Welcome, admin (admin)
+2026-02-27 17:45:28,541 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:45:28,541 - INFO - ReportManager created after login
+2026-02-27 17:45:28,833 - INFO - Login OK: admin
+2026-02-27 17:45:28,834 - INFO - ReportManager: User 'admin' logged in
+2026-02-27 17:45:28,844 - INFO - ReportManager session set for admin using password
+2026-02-27 17:45:28,845 - INFO - ReportManager session set for admin using hash fallback
+2026-02-27 17:45:28,845 - INFO - ReportManager session set for admin
+2026-02-27 17:45:28,846 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:45:29,306 - ERROR - Error fetching all students: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:29,308 - INFO - Error loading students: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:29,309 - ERROR - Load error: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:36,179 - ERROR - Error loading students: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:36,179 - INFO - StudentsTab GUI initialized
+2026-02-27 17:45:36,181 - INFO - Initialized StudentsTab with username=admin, role=admin
+2026-02-27 17:45:36,182 - INFO - StudentsTab initialized; data will load after login
+2026-02-27 17:45:36,183 - INFO - Initialized Students tab with username=admin, role=admin
+2026-02-27 17:45:36,184 - ERROR - Error fetching all students: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:36,185 - INFO - Error loading students: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:36,187 - ERROR - Load error: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:37,628 - ERROR - Error loading students: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:37,630 - INFO - Refreshed data for Students tab
+2026-02-27 17:45:37,645 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:45:37,645 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:45:38,112 - ERROR - Error fetching all ream records: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:39,819 - ERROR - Error loading records: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:39,820 - INFO - ReamsTab GUI initialized
+2026-02-27 17:45:39,821 - INFO - Initialized ReamsTab with username=admin, role=admin
+2026-02-27 17:45:39,822 - INFO - ReamsTab initialized; data will load after login
+2026-02-27 17:45:39,822 - INFO - Initialized Reams tab with username=admin, role=admin
+2026-02-27 17:45:39,823 - ERROR - Error fetching all ream records: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:40,523 - ERROR - Error loading records: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:40,524 - INFO - Refreshed data for Reams tab
+2026-02-27 17:45:40,539 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:45:40,540 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:45:40,540 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:45:40,540 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:45:40,541 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:45:40,702 - ERROR - Error fetching issue records: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:41,660 - ERROR - Error loading issues: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:41,662 - INFO - Error loading issues: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:41,663 - ERROR - Error loading issues: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:41,674 - INFO - IssuesTab GUI initialized
+2026-02-27 17:45:41,674 - INFO - Initializing IssuesTab with username=admin, role=admin
+2026-02-27 17:45:41,675 - INFO - IssuesTab initialized; data will load after login
+2026-02-27 17:45:41,676 - INFO - Initialized Issues tab with username=admin, role=admin
+2026-02-27 17:45:41,676 - ERROR - Error fetching issue records: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:42,270 - ERROR - Error loading issues: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:42,272 - INFO - Error loading issues: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:42,272 - ERROR - Error loading issues: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:42,273 - INFO - Refreshed IssuesTab data
+2026-02-27 17:45:42,285 - INFO - Refreshed IssuesTab data
+2026-02-27 17:45:42,286 - INFO - Refreshed data for Issues tab
+2026-02-27 17:45:42,300 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:45:42,309 - INFO - Successfully validated report_config.json
+2026-02-27 17:45:42,363 - ERROR - Error fetching streams: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:42,606 - INFO - ReportsTab GUI initialized
+2026-02-27 17:45:42,607 - INFO - Initializing ReportsTab with username=admin, role=admin
+2026-02-27 17:45:42,609 - INFO - ReportsTab initialized; data will load after login
+2026-02-27 17:45:42,609 - INFO - Initialized Reports tab with username=admin, role=admin
+2026-02-27 17:45:42,610 - INFO - ReportsTab user updated: admin (admin)
+2026-02-27 17:45:42,611 - INFO - ReportsTab authorized as admin (admin)
+2026-02-27 17:45:42,611 - ERROR - Error fetching streams: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:42,612 - INFO - Refreshed ReportsTab data
+2026-02-27 17:45:42,624 - INFO - Refreshed ReportsTab data
+2026-02-27 17:45:42,624 - INFO - Refreshed data for Reports tab
+2026-02-27 17:45:42,636 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:45:42,687 - INFO - All users fetched by admin
+2026-02-27 17:45:42,692 - INFO - Loaded 1 user records
+2026-02-27 17:45:42,693 - INFO - Loaded 1 user records for user admin
+2026-02-27 17:45:42,727 - INFO - UserTab GUI initialized
+2026-02-27 17:45:42,727 - INFO - Initialized UserTab with username=admin, role=admin
+2026-02-27 17:45:42,729 - INFO - UserTab initialized; data will load after login
+2026-02-27 17:45:42,730 - INFO - Initialized Users tab with username=admin, role=admin
+2026-02-27 17:45:42,740 - INFO - All users fetched by admin
+2026-02-27 17:45:42,743 - INFO - Loaded 1 user records
+2026-02-27 17:45:42,743 - INFO - Loaded 1 user records for user admin
+2026-02-27 17:45:42,746 - INFO - Refreshed data for Users tab
+2026-02-27 17:45:42,784 - ERROR - Error generating stock summary: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:42,786 - INFO - Error updating stock overview: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:42,786 - ERROR - Error updating stock overview: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:42,868 - INFO - Started fade-in animation for Students
+2026-02-27 17:45:42,868 - ERROR - Error fetching all students: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:42,871 - INFO - Error loading students: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:42,871 - ERROR - Load error: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:42,987 - ERROR - Error generating stock summary: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:42,989 - INFO - Error updating stock overview: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:42,989 - ERROR - Error updating stock overview: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:44,485 - ERROR - Error loading students: ConnectionPool.get_connection() got an unexpected keyword argument 'retries'
+2026-02-27 17:45:44,487 - INFO - Refreshed data for Students tab
+2026-02-27 17:45:44,503 - INFO - Switched to Students tab
+2026-02-27 17:45:44,503 - INFO - MainWindow deiconified and initialized after login
+2026-02-27 17:47:58,502 - INFO - User admin exited application
+2026-02-27 17:47:58,503 - INFO - User admin exited application
+2026-02-27 17:47:58,503 - INFO - Scheduler has been shut down
+2026-02-27 17:47:58,535 - INFO - Closed all connections in pool
+2026-02-27 17:49:06,378 - INFO - Using logs directory: logs
+2026-02-27 17:49:06,381 - INFO - Initializing ConnectionPool for database/ream_management.db with max_connections=25
+2026-02-27 17:49:06,382 - INFO - Initialized connection pool for database/ream_management.db with 25 max connections
+2026-02-27 17:49:25,712 - INFO - Production database schema v1.0.0 initialized securely.
+2026-02-27 17:49:25,718 - INFO - Stock reconciled.
+2026-02-27 17:49:25,719 - INFO - Database fully initialized at database/ream_management.db
+2026-02-27 17:49:25,719 - INFO - Database initialised at database/ream_management.db
+2026-02-27 17:49:25,720 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:49:25,722 - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-27 17:49:25,723 - INFO - Added job "Year-end Student Auto-Promotion" to job store "default"
+2026-02-27 17:49:25,724 - INFO - Scheduler started
+2026-02-27 17:49:25,725 - INFO - Auto-promotion scheduled for 12/31 at 23:55
+2026-02-27 17:49:25,725 - INFO - Launching GUI
+2026-02-27 17:49:25,820 - INFO - Initializing MainWindow
+2026-02-27 17:49:25,822 - INFO - Set theme: light/green
+2026-02-27 17:49:25,823 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:49:26,015 - INFO - Added placeholder tab with scrollable frame: Students
+2026-02-27 17:49:26,022 - INFO - Added placeholder tab with scrollable frame: Reams
+2026-02-27 17:49:26,029 - INFO - Added placeholder tab with scrollable frame: Issues
+2026-02-27 17:49:26,035 - INFO - Added placeholder tab with scrollable frame: Reports
+2026-02-27 17:49:26,040 - INFO - Added placeholder tab with scrollable frame: Users
+2026-02-27 17:49:26,053 - INFO - Initializing LoginWindow
+2026-02-27 17:49:26,101 - INFO - Auto-filled login for admin
+2026-02-27 17:49:26,101 - INFO - LoginWindow UI initialized
+2026-02-27 17:49:26,103 - INFO - LoginWindow shown, MainWindow withdrawn
+2026-02-27 17:49:30,280 - INFO - Login OK: admin
+2026-02-27 17:49:30,349 - INFO - Welcome, admin (admin)
+2026-02-27 17:49:30,351 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:49:30,353 - INFO - ReportManager created after login
+2026-02-27 17:49:30,871 - INFO - Login OK: admin
+2026-02-27 17:49:30,872 - INFO - ReportManager: User 'admin' logged in
+2026-02-27 17:49:30,877 - INFO - ReportManager session set for admin using password
+2026-02-27 17:49:30,879 - INFO - ReportManager session set for admin using hash fallback
+2026-02-27 17:49:30,880 - INFO - ReportManager session set for admin
+2026-02-27 17:49:30,880 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:49:31,317 - INFO - Fetched 0 students by admin
+2026-02-27 17:49:31,336 - INFO - Loaded 0 student records
+2026-02-27 17:49:31,337 - INFO - Loaded 0 records for admin
+2026-02-27 17:49:31,404 - INFO - StudentsTab GUI initialized
+2026-02-27 17:49:31,405 - INFO - Initialized StudentsTab with username=admin, role=admin
+2026-02-27 17:49:31,407 - INFO - StudentsTab initialized; data will load after login
+2026-02-27 17:49:31,408 - INFO - Initialized Students tab with username=admin, role=admin
+2026-02-27 17:49:31,408 - INFO - Fetched 0 students by admin
+2026-02-27 17:49:31,421 - INFO - Loaded 0 student records
+2026-02-27 17:49:31,422 - INFO - Loaded 0 records for admin
+2026-02-27 17:49:31,425 - INFO - Refreshed data for Students tab
+2026-02-27 17:49:31,449 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:49:31,449 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:49:31,895 - INFO - Audit logged: DISPLAY (fetch_all_records) by admin
+2026-02-27 17:49:31,896 - INFO - Fetched 0 ream records by admin
+2026-02-27 17:49:31,912 - INFO - Audit logged: DISPLAY (fetch_purchase_records) by admin
+2026-02-27 17:49:31,913 - INFO - Fetched 0 purchase records by admin
+2026-02-27 17:49:31,917 - INFO - Loaded 0 ream records and 0 purchase records
+2026-02-27 17:49:31,918 - INFO - Loaded 0 ream records and 0 purchase records for admin
+2026-02-27 17:49:31,974 - INFO - ReamsTab GUI initialized
+2026-02-27 17:49:31,975 - INFO - Initialized ReamsTab with username=admin, role=admin
+2026-02-27 17:49:31,977 - INFO - ReamsTab initialized; data will load after login
+2026-02-27 17:49:31,977 - INFO - Initialized Reams tab with username=admin, role=admin
+2026-02-27 17:49:31,987 - INFO - Audit logged: DISPLAY (fetch_all_records) by admin
+2026-02-27 17:49:31,988 - INFO - Fetched 0 ream records by admin
+2026-02-27 17:49:31,998 - INFO - Audit logged: DISPLAY (fetch_purchase_records) by admin
+2026-02-27 17:49:31,998 - INFO - Fetched 0 purchase records by admin
+2026-02-27 17:49:32,003 - INFO - Loaded 0 ream records and 0 purchase records
+2026-02-27 17:49:32,004 - INFO - Loaded 0 ream records and 0 purchase records for admin
+2026-02-27 17:49:32,007 - INFO - Refreshed data for Reams tab
+2026-02-27 17:49:32,035 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:49:32,035 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:49:32,037 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:49:32,037 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:49:32,037 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:49:32,177 - INFO - Audit logged: DISPLAY (get_all_issues) by admin
+2026-02-27 17:49:32,178 - INFO - Fetched 0 issue records by admin
+2026-02-27 17:49:32,185 - INFO - Loaded 0 issue records
+2026-02-27 17:49:32,186 - INFO - Loaded 0 issue records by user admin
+2026-02-27 17:49:32,226 - INFO - IssuesTab GUI initialized
+2026-02-27 17:49:32,227 - INFO - Initializing IssuesTab with username=admin, role=admin
+2026-02-27 17:49:32,229 - INFO - IssuesTab initialized; data will load after login
+2026-02-27 17:49:32,230 - INFO - Initialized Issues tab with username=admin, role=admin
+2026-02-27 17:49:32,240 - INFO - Audit logged: DISPLAY (get_all_issues) by admin
+2026-02-27 17:49:32,240 - INFO - Fetched 0 issue records by admin
+2026-02-27 17:49:32,243 - INFO - Loaded 0 issue records
+2026-02-27 17:49:32,244 - INFO - Loaded 0 issue records by user admin
+2026-02-27 17:49:32,246 - INFO - Refreshed IssuesTab data
+2026-02-27 17:49:32,263 - INFO - Refreshed IssuesTab data
+2026-02-27 17:49:32,264 - INFO - Refreshed data for Issues tab
+2026-02-27 17:49:32,277 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:49:32,287 - INFO - Successfully validated report_config.json
+2026-02-27 17:49:32,547 - INFO - ReportsTab GUI initialized
+2026-02-27 17:49:32,547 - INFO - Initializing ReportsTab with username=admin, role=admin
+2026-02-27 17:49:32,551 - INFO - ReportsTab initialized; data will load after login
+2026-02-27 17:49:32,551 - INFO - Initialized Reports tab with username=admin, role=admin
+2026-02-27 17:49:32,552 - INFO - ReportsTab user updated: admin (admin)
+2026-02-27 17:49:32,553 - INFO - ReportsTab authorized as admin (admin)
+2026-02-27 17:49:32,554 - INFO - Refreshed ReportsTab data
+2026-02-27 17:49:32,564 - INFO - Refreshed ReportsTab data
+2026-02-27 17:49:32,565 - INFO - Refreshed data for Reports tab
+2026-02-27 17:49:32,577 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 17:49:32,631 - INFO - All users fetched by admin
+2026-02-27 17:49:32,636 - INFO - Loaded 1 user records
+2026-02-27 17:49:32,637 - INFO - Loaded 1 user records for user admin
+2026-02-27 17:49:32,671 - INFO - UserTab GUI initialized
+2026-02-27 17:49:32,671 - INFO - Initialized UserTab with username=admin, role=admin
+2026-02-27 17:49:32,672 - INFO - UserTab initialized; data will load after login
+2026-02-27 17:49:32,673 - INFO - Initialized Users tab with username=admin, role=admin
+2026-02-27 17:49:32,683 - INFO - All users fetched by admin
+2026-02-27 17:49:32,686 - INFO - Loaded 1 user records
+2026-02-27 17:49:32,687 - INFO - Loaded 1 user records for user admin
+2026-02-27 17:49:32,692 - INFO - Refreshed data for Users tab
+2026-02-27 17:49:32,741 - INFO - Audit logged: DISPLAY (get_min_stock_alert) by admin
+2026-02-27 17:49:32,742 - INFO - Fetched min stock alert (10) by admin
+2026-02-27 17:49:32,753 - INFO - Audit logged: REPORT (stock_summary) by admin
+2026-02-27 17:49:32,755 - INFO - Stock summary generated by admin
+2026-02-27 17:49:32,767 - INFO - Audit logged: REPORT (overview) by admin
+2026-02-27 17:49:32,768 - INFO - Generated overview report by admin
+2026-02-27 17:49:32,773 - INFO - Updated stock overview
+2026-02-27 17:49:32,868 - INFO - Started fade-in animation for Students
+2026-02-27 17:49:32,869 - INFO - Fetched 0 students by admin
+2026-02-27 17:49:32,898 - INFO - Loaded 0 student records
+2026-02-27 17:49:32,899 - INFO - Loaded 0 records for admin
+2026-02-27 17:49:32,900 - INFO - Refreshed data for Students tab
+2026-02-27 17:49:32,917 - INFO - Switched to Students tab
+2026-02-27 17:49:32,917 - INFO - MainWindow deiconified and initialized after login
+2026-02-27 17:49:32,919 - INFO - Auto-login successful for admin
+2026-02-27 17:49:32,920 - INFO - Auto-login: admin
+2026-02-27 17:49:33,032 - INFO - Started fade-in animation for Students
+2026-02-27 17:49:33,032 - INFO - Fetched 0 students by admin
+2026-02-27 17:49:33,043 - INFO - Loaded 0 student records
+2026-02-27 17:49:33,044 - INFO - Loaded 0 records for admin
+2026-02-27 17:49:33,045 - INFO - Refreshed data for Students tab
+2026-02-27 17:49:33,061 - INFO - Switched to Students tab
+2026-02-27 17:49:33,062 - INFO - Activated Students via Enter key
+2026-02-27 17:49:33,074 - INFO - Audit logged: DISPLAY (get_min_stock_alert) by admin
+2026-02-27 17:49:33,074 - INFO - Fetched min stock alert (10) by admin
+2026-02-27 17:49:33,084 - INFO - Audit logged: REPORT (stock_summary) by admin
+2026-02-27 17:49:33,085 - INFO - Stock summary generated by admin
+2026-02-27 17:49:33,093 - INFO - Audit logged: REPORT (overview) by admin
+2026-02-27 17:49:33,094 - INFO - Generated overview report by admin
+2026-02-27 17:49:33,096 - INFO - Updated stock overview
+2026-02-27 17:51:26,837 - INFO - User admin exited application
+2026-02-27 17:51:26,837 - INFO - User admin exited application
+2026-02-27 17:51:26,845 - INFO - Scheduler has been shut down
+2026-02-27 17:51:26,884 - INFO - Closed all connections in pool

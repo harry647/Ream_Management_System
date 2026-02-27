@@ -33,6 +33,15 @@ logger = logging.getLogger(__name__)
 db_pool = None
 
 
+def get_db_pool():
+    """Get the current database connection pool.
+    
+    Returns:
+        The ConnectionPool instance or None if not initialized.
+    """
+    return db_pool
+
+
 # ===================================================================
 # 0. Cross-Platform Data Directory (Windows permission fix)
 # ===================================================================

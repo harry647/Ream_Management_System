@@ -4,7 +4,7 @@ import re
 import os
 from datetime import datetime
 from typing import List, Dict, Optional, Any
-from modules.db_setup import get_db_connection, release_db_connection, get_cumulative_ream_requirements, db_pool  
+from modules.db_setup import get_db_connection, release_db_connection, get_cumulative_ream_requirements, get_db_pool  
 from modules.user_manager import UserManager
 import csv
 import json
@@ -58,11 +58,14 @@ class ReportManager:
     # ------------------------------------------------------------------
     def _get_connection(self) -> sqlite3.Connection:
         """Get a connection from the pool."""
-        return self.db_pool.get_connection()
+        pool = get_db_pool()
+        return pool.get_connection(timeout=30)
 
     def _release_connection(self, conn: sqlite3.Connection) -> None:
         """Release a connection back to the pool."""
-        self.db_pool.release_connection(conn)
+        if conn:
+            pool = get_db_pool()
+            pool.release_connection(conn)
 
     # ------------------------------------------------------------------
     # Validation helpers 

@@ -35,6 +35,7 @@ Name: "startmenuicon"; Description: "Create a Start Menu shortcut"; GroupDescrip
 ; Optional: Include VC++ Redistributable in packages folder for offline installation
 Source: "packages\vcredist_x64.exe"; DestDir: "{app}\packages"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "dist\ReamManagement.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".env"; DestDir: "{app}"; Flags: ignoreversion
 Source: "config\*"; DestDir: "{app}\config"; Flags: ignoreversion recursesubdirs
 Source: "database\*"; DestDir: "{app}\database"; Flags: ignoreversion recursesubdirs
 Source: "gui\*"; DestDir: "{app}\gui"; Flags: ignoreversion recursesubdirs

@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 import re
 from typing import List, Optional, Dict 
-from modules.db_setup import get_db_connection, release_db_connection, validate_json, get_term_from_date, get_cumulative_ream_requirements, db_pool
+from modules.db_setup import get_db_connection, release_db_connection, validate_json, get_term_from_date, get_cumulative_ream_requirements, get_db_pool
 from modules.user_manager import UserManager
 import threading
 import json
@@ -42,13 +42,15 @@ class StudentManager:
         }
 
     def _get_connection(self) -> sqlite3.Connection:
-        """Get a connection from the pool with retry logic."""
-        return db_pool.get_connection(retries=3, delay=1)
+        """Get a connection from the pool."""
+        pool = get_db_pool()
+        return pool.get_connection(timeout=30)
 
     def _release_connection(self, conn: sqlite3.Connection) -> None:
         """Release a connection back to the pool."""
         if conn:
-            db_pool.release_connection(conn)
+            pool = get_db_pool()
+            pool.release_connection(conn)
 
     def _validate_admission_no(self, admission_no: str) -> bool:
         """Validate admission number format (1-12 alphanumeric characters)."""

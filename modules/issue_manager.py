@@ -4,7 +4,7 @@ import shutil
 import os
 from datetime import datetime
 from typing import List, Dict, Optional
-from modules.db_setup import get_db_connection, release_db_connection, backup_database, db_pool
+from modules.db_setup import get_db_connection, release_db_connection, backup_database, get_db_pool
 from modules.user_manager import UserManager
 from modules.ream_manager import ReamManager
 from reportlab.lib.pagesizes import A4
@@ -42,11 +42,14 @@ class IssueManager:
 
     def _get_connection(self) -> sqlite3.Connection:
         """Get a connection from the pool."""
-        return self.db_pool.get_connection()
+        pool = get_db_pool()
+        return pool.get_connection(timeout=30)
 
     def _release_connection(self, conn: sqlite3.Connection) -> None:
         """Release a connection back to the pool."""
-        self.db_pool.release_connection(conn)
+        if conn:
+            pool = get_db_pool()
+            pool.release_connection(conn)
 
     def _validate_department(self, department: str) -> bool:
         """Validate department against allowed values."""
