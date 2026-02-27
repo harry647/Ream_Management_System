@@ -4,7 +4,7 @@ import json
 import logging
 import customtkinter as ctk
 from gui.main_window import MainWindow
-from modules.db_setup import init_database
+from modules.db_setup import init_database, get_database_path, get_logs_dir, get_config_dir
 from modules.student_manager import StudentManager
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
@@ -15,31 +15,39 @@ import threading
 # ----------------------------------------------------------------------
 # Logging (first thing!)
 # ----------------------------------------------------------------------
-os.makedirs("logs", exist_ok=True)
+logs_dir = get_logs_dir()
+os.makedirs(logs_dir, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("logs/main.log"),
+        logging.FileHandler(os.path.join(logs_dir, "main.log")),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
+logger.info(f"Using logs directory: {logs_dir}")
 
 # ----------------------------------------------------------------------
 # Config handling
 # ----------------------------------------------------------------------
 def load_config():
-    config_path = "config/config.json"
+    # Use platform-appropriate config directory
+    config_dir = get_config_dir()
+    config_path = os.path.join(config_dir, "config.json")
+    
+    # Get database path using platform-appropriate directory
+    db_path = get_database_path()
+    
     default_config = {
-        "database_path": "database/ream_management.db",
+        "database_path": db_path,
         "ui_theme": {
             "appearance_mode": "dark",
             "color_theme": "blue"
         },
         "logging": {
             "level": "INFO",
-            "file": "logs/main.log"
+            "file": os.path.join(get_logs_dir(), "main.log")
         },
         "features": {
             "undo_enabled": False,
@@ -55,7 +63,7 @@ def load_config():
     }
 
     try:
-        os.makedirs("config", exist_ok=True)
+        os.makedirs(config_dir, exist_ok=True)
 
         if not os.path.exists(config_path) or os.path.getsize(config_path) == 0:
             with open(config_path, "w") as f:

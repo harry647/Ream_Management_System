@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 # Configuration
 PYTHON_VERSION = "3.11.9"
 PYTHON_EMBED_ZIP = "python-embed.zip"
-INNO_SETUP_COMPILER = os.environ.get("INNO_SETUP_COMPILER", r"C:\Program Files (x86)\Inno Setup 6\ISCC.exe")
+INNO_SETUP_COMPILER = os.environ.get("INNO_SETUP_COMPILER", "iscc")  # Use 'iscc' on PATH or set INNO_SETUP_COMPILER environment variable
 PROJECT_ROOT = Path(__file__).parent
 DIST_DIR = PROJECT_ROOT / "dist"
 PACKAGES_DIR = PROJECT_ROOT / "packages"
@@ -174,21 +174,63 @@ def prepare_offline_packages():
 def generate_post_install_bat():
     """Generate post_install.bat for setting up Python environment."""
     content = f"""@echo off
-            echo Setting up Python environment...
+setlocal enabledelayedexpansion
 
-            :: Extract Python embeddable
-            cd "%~dp0"
-            powershell -Command "Expand-Archive -Path 'python-embed.zip' -DestinationPath 'python' -Force"
+echo Setting up Python environment...
 
-            :: Update python.ini to enable site-packages
-            echo [Defaults] > python\\python{PYTHON_VERSION.replace('.', '')}._pth
-            echo python{PYTHON_VERSION.replace('.', '')}.zip >> python\\python{PYTHON_VERSION.replace('.', '')}._pth
-            echo . >> python\\python{PYTHON_VERSION.replace('.', '')}._pth
-            echo import site >> python\\python{PYTHON_VERSION.replace('.', '')}._pth
+cd "%~dp0"
 
-            echo Python environment setup complete.
-            exit /b 0
-            """
+:: ============================================================
+:: Check and install Visual C++ Redistributable (required for Python native modules)
+:: ============================================================
+echo Checking for Visual C++ Redistributable...
+
+:: Check if VC++ Redistributable is already installed (check registry)
+reg query "HKLM\\SOFTWARE\\Microsoft\\VisualStudio\\14.0\\VC\\Runtimes\\x64" /v Version >nul 2>&1
+if %errorlevel% neq 0 (
+    reg query "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\VisualStudio\\14.0\\VC\\Runtimes\\x64" /v Version >nul 2>&1
+    if %errorlevel% neq 0 (
+        echo Visual C++ Redistributable not found. Installing...
+        
+        :: Try to download and install VC++ Redistributable
+        :: Note: For offline installation, include VC++ Redistributable installer in packages folder
+        if exist "packages\\vcredist_x64.exe" (
+            echo Installing VC++ Redistributable from local package...
+            packages\\vcredist_x64.exe /install /quiet /norestart
+            timeout /t 10 /nobreak >nul
+        ) else (
+            echo WARNING: VC++ Redistributable not found in packages folder.
+            echo The application may require Microsoft Visual C++ Redistributable.
+            echo Download from: https://aka.ms/vs/17/release/vc_redist.x64.exe
+        )
+    ) else (
+    echo Visual C++ Redistributable already installed.
+)
+
+:: ============================================================
+:: Extract Python embeddable
+:: ============================================================
+echo Extracting Python environment...
+powershell -Command "Expand-Archive -Path 'python-embed.zip' -DestinationPath 'python' -Force"
+
+:: Update python.ini to enable site-packages
+echo [Defaults] > python\\python{PYTHON_VERSION.replace('.', '')}._pth
+echo python{PYTHON_VERSION.replace('.', '')}.zip >> python\\python{PYTHON_VERSION.replace('.', '')}._pth
+echo . >> python\\python{PYTHON_VERSION.replace('.', '')}._pth
+echo import site >> python\\python{PYTHON_VERSION.replace('.', '')}._pth
+
+echo.
+echo ============================================================
+echo Setup complete!
+echo.
+echo IMPORTANT: If the application fails to start, please install:
+echo   Microsoft Visual C++ Redistributable from:
+echo   https://aka.ms/vs/17/release/vc_redist.x64.exe
+echo ============================================================
+echo.
+
+exit /b 0
+"""
     try:
         with open(POST_INSTALL_BAT, "w") as f:
             f.write(content)

@@ -13,7 +13,7 @@ Compression=lzma2
 SolidCompression=yes
 SetupIconFile=icons\login.ico
 WizardStyle=modern
-PrivilegesRequired=admin
+PrivilegesRequired=low
 AllowNoIcons=yes
 WizardImageFile=installer_banner.bmp
 WizardSmallImageFile=installer_icon.bmp
@@ -32,6 +32,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "startmenuicon"; Description: "Create a Start Menu shortcut"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Files]
+; Optional: Include VC++ Redistributable in packages folder for offline installation
+Source: "packages\vcredist_x64.exe"; DestDir: "{app}\packages"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "dist\ReamManagement.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "config\*"; DestDir: "{app}\config"; Flags: ignoreversion recursesubdirs
 Source: "database\*"; DestDir: "{app}\database"; Flags: ignoreversion recursesubdirs

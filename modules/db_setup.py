@@ -34,6 +34,107 @@ db_pool = None
 
 
 # ===================================================================
+# 0. Cross-Platform Data Directory (Windows permission fix)
+# ===================================================================
+def get_app_data_dir(app_name: str = "ReamManagement") -> str:
+    """
+    Get the appropriate data directory for the application.
+    
+    Uses platform-specific directories that are guaranteed writable:
+    - Windows: %LOCALAPPDATA%\\ReamManagement (preferred) or %APPDATA%\\ReamManagement
+    - macOS: ~/Library/Application Support/ReamManagement
+    - Linux: ~/.local/share/ReamManagement
+    - Docker/Fallback: ./data (relative, writable)
+    
+    This ensures the app works from Desktop, Program Files, or network drives.
+    """
+    import platform
+    import sys
+    
+    system = platform.system()
+    
+    if system == "Windows":
+        # Use LOCALAPPDATA (doesn't require admin) - preferred for user data
+        base = os.environ.get("LOCALAPPDATA")
+        if base:
+            return os.path.join(base, app_name)
+        # Fallback to APPDATA
+        base = os.environ.get("APPDATA")
+        if base:
+            return os.path.join(base, app_name)
+    elif system == "Darwin":  # macOS
+        base = os.path.expanduser("~/Library/Application Support")
+        return os.path.join(base, app_name)
+    elif system == "Linux":
+        base = os.environ.get("XDG_DATA_HOME")
+        if base:
+            return os.path.join(base, app_name)
+        base = os.path.expanduser("~/.local/share")
+        return os.path.join(base, app_name)
+    
+    # Docker or unknown - use relative ./data directory
+    return os.path.join("data", app_name)
+
+
+def get_database_path(default_relative: str = "database/ream_management.db") -> str:
+    """
+    Get database path, using platform-appropriate directory.
+    
+    Priority:
+    1. Environment variable DATABASE_PATH (absolute path)
+    2. Platform-specific user data directory
+    3. Relative path from current location (fallback)
+    """
+    # Check for environment variable override
+    env_path = os.environ.get("DATABASE_PATH")
+    if env_path:
+        return env_path
+    
+    # Use platform-appropriate directory
+    app_dir = get_app_data_dir()
+    
+    # Check if we're running from the project root (development mode)
+    # or from an installed location
+    if os.path.exists(default_relative):
+        # Development mode - use relative path
+        return default_relative
+    else:
+        # Installed/frozen mode - use app data directory
+        os.makedirs(app_dir, exist_ok=True)
+        return os.path.join(app_dir, "ream_management.db")
+
+
+def get_logs_dir(default_relative: str = "logs") -> str:
+    """Get logs directory with proper cross-platform handling."""
+    env_path = os.environ.get("LOGS_PATH")
+    if env_path:
+        return env_path
+    
+    app_dir = get_app_data_dir()
+    
+    if os.path.exists(default_relative):
+        return default_relative
+    else:
+        os.makedirs(app_dir, exist_ok=True)
+        return os.path.join(app_dir, "logs")
+
+
+def get_config_dir(default_relative: str = "config") -> str:
+    """Get config directory with proper cross-platform handling."""
+    env_path = os.environ.get("CONFIG_PATH")
+    if env_path:
+        return env_path
+    
+    app_dir = get_app_data_dir()
+    
+    if os.path.exists(default_relative):
+        return default_relative
+    else:
+        os.makedirs(app_dir, exist_ok=True)
+        return os.path.join(app_dir, "config")
+
+
+# ===================================================================
 # 1. Secure Admin Password (Critical Fix #1)
 # ===================================================================
 def get_admin_password() -> str:
@@ -218,7 +319,13 @@ def get_term_from_date(date_str: Optional[str], datetime_format: str = '%Y-%m-%d
     raise ValueError(f"Invalid month {month}")
 
 
-def backup_database(db_path="database/ream_management.db", backup_path="database/ream_management_backup.db"):
+def backup_database(db_path=None, backup_path=None):
+    # Use platform-appropriate paths if not specified
+    if db_path is None:
+        db_path = get_database_path()
+    if backup_path is None:
+        app_dir = os.path.dirname(get_database_path())
+        backup_path = os.path.join(app_dir, "ream_management_backup.db")
     try:
         os.makedirs(os.path.dirname(backup_path), exist_ok=True)
         src = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
@@ -231,7 +338,13 @@ def backup_database(db_path="database/ream_management.db", backup_path="database
         raise
 
 
-def restore_database(db_path="database/ream_management.db", backup_path="database/ream_management_backup.db"):
+def restore_database(db_path=None, backup_path=None):
+    # Use platform-appropriate paths if not specified
+    if db_path is None:
+        db_path = get_database_path()
+    if backup_path is None:
+        app_dir = os.path.dirname(get_database_path())
+        backup_path = os.path.join(app_dir, "ream_management_backup.db")
     global db_pool
     try:
         if not os.path.exists(backup_path):
@@ -656,7 +769,10 @@ def reconcile_stock():
 # ===================================================================
 # 8. init_database()
 # ===================================================================
-def init_database(db_path="database/ream_management.db"):
+def init_database(db_path=None):
+    # Use platform-appropriate path if not specified
+    if db_path is None:
+        db_path = get_database_path()
     global db_pool
     try:
         os.makedirs(os.path.dirname(db_path), exist_ok=True)
