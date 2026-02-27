@@ -895,12 +895,19 @@ class UserTab:
             show_error(self.main_window, f"Error sorting table: {str(e)}")
 
     def on_select_user(self, event):
-        """Populate user form with selected user's data."""
+        """Handle user selection in treeview - log selection for now."""
         selected = self.tree.selection()
         if not selected:
             return
         item = self.tree.item(selected[0])['values']
         user_id, username, role, status, created_at, updated_at = item
+        
+        # Check if user form entries exist (they may not if using popup forms only)
+        if not self.user_entries:
+            self.main_window.log_feedback(f"Selected user: {username} - Use Edit button to modify")
+            logger.info(f"Selected user: {username} by user {self.username}")
+            return
+        
         self.user_entries['username'].delete(0, "end")
         self.user_entries['username'].insert(0, username)
         self.user_entries['password'].delete(0, "end")
@@ -912,6 +919,11 @@ class UserTab:
 
     def clear_user_form(self):
         """Clear the user form fields."""
+        # Check if user form entries exist (they may not if using popup forms only)
+        if not self.user_entries:
+            self.main_window.log_feedback("User form cleared - using popup forms")
+            return
+            
         for key in ['username', 'password', 'remarks']:
             self.user_entries[key].delete(0, "end")
         self.user_entries['role'].set('viewer')

@@ -71,6 +71,26 @@ def get_app_dir() -> str:
         return os.getcwd()
 
 
+def get_bundle_dir() -> str:
+    """
+    Get the directory where bundled resources are extracted (PyInstaller).
+    
+    In frozen mode, this returns sys._MEIPASS where PyInstaller extracts
+    bundled files. In development mode, returns the project root.
+    
+    Returns:
+        Path to bundled resources directory.
+    """
+    import sys
+    
+    if getattr(sys, 'frozen', False):
+        # PyInstaller extracts bundled files to a temp directory
+        return sys._MEIPASS
+    else:
+        # Development mode: use project root
+        return os.getcwd()
+
+
 def get_app_data_dir(app_name: str = "ReamManagement") -> str:
     """
     Get the appropriate data directory for the application.
@@ -202,6 +222,7 @@ def get_config_dir(default_relative: str = "config") -> str:
     """Get config directory with proper cross-platform handling.
     
     For installed apps, always uses user-writable app data directory.
+    Copies bundled config files to AppData on first run.
     """
     env_path = os.environ.get("CONFIG_PATH")
     if env_path:
@@ -215,6 +236,21 @@ def get_config_dir(default_relative: str = "config") -> str:
         data_dir = get_app_data_dir()
         config_path = os.path.join(data_dir, "config")
         os.makedirs(config_path, exist_ok=True)
+        
+        # Copy bundled config files to AppData if they don't exist
+        bundle_dir = get_bundle_dir()
+        bundled_config = os.path.join(bundle_dir, "config")
+        if os.path.exists(bundled_config):
+            for filename in os.listdir(bundled_config):
+                src_file = os.path.join(bundled_config, filename)
+                dest_file = os.path.join(config_path, filename)
+                if os.path.isfile(src_file) and not os.path.exists(dest_file):
+                    try:
+                        shutil.copy2(src_file, dest_file)
+                        logger.info(f"Copied {filename} to config directory")
+                    except Exception as e:
+                        logger.warning(f"Failed to copy {filename}: {e}")
+        
         return config_path
     else:
         # Development mode: use relative path or app directory

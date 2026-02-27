@@ -12,7 +12,7 @@ from gui.settings import SettingsWindow
 from modules.user_manager import UserManager
 from modules.report_manager import ReportManager
 from gui.utils import show_error, show_info
-from modules.db_setup import get_logs_dir, get_config_dir, get_database_path
+from modules.db_setup import get_logs_dir, get_config_dir, get_database_path, get_bundle_dir
 import logging
 import json
 import os
@@ -696,10 +696,16 @@ class MainWindow(ctk.CTk):
 
 
     def open_help(self):
-        """Open help.txt from project root in default editor."""
-        # Get project root (parent of gui folder)
-        project_root = os.path.dirname(os.path.dirname(__file__))
-        help_path = os.path.join(project_root, "help.txt")
+        """Open help.txt from bundled resources or project root."""
+        # Try to find help.txt in bundled resources first (frozen mode)
+        # then fall back to project root (development mode)
+        bundle_dir = get_bundle_dir()
+        help_path = os.path.join(bundle_dir, "help.txt")
+        
+        # If not in bundle, try project root
+        if not os.path.exists(help_path):
+            project_root = os.path.dirname(os.path.dirname(__file__))
+            help_path = os.path.join(project_root, "help.txt")
 
         if not os.path.exists(help_path):
             messagebox.showerror(
