@@ -2,9 +2,10 @@
 import os
 import json
 import logging
+import sys
 import customtkinter as ctk
 from gui.main_window import MainWindow
-from modules.db_setup import init_database, get_database_path, get_logs_dir, get_config_dir
+from modules.db_setup import init_database, get_database_path, get_logs_dir, get_config_dir, get_app_dir
 from modules.student_manager import StudentManager
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
@@ -13,16 +14,22 @@ import atexit
 import threading
 
 # ----------------------------------------------------------------------
-# Logging (first thing!)
+# Logging (first thing!) - Use UTF-8 encoding to handle Unicode characters
 # ----------------------------------------------------------------------
 logs_dir = get_logs_dir()
 os.makedirs(logs_dir, exist_ok=True)
+
+# Create handlers with UTF-8 encoding
+file_handler = logging.FileHandler(os.path.join(logs_dir, "main.log"), encoding='utf-8')
+stream_handler = logging.StreamHandler(sys.stdout)
+stream_handler.stream.reconfigure(encoding='utf-8')  # Ensure stdout uses UTF-8
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler(os.path.join(logs_dir, "main.log")),
-        logging.StreamHandler()
+        file_handler,
+        stream_handler
     ]
 )
 logger = logging.getLogger(__name__)
@@ -74,7 +81,7 @@ def load_config():
         with open(config_path, "r") as f:
             content = f.read().strip()
             if not content:
-                logger.warning("Config file empty → using defaults")
+                logger.warning("Config file empty -> using defaults")
                 with open(config_path, "w") as fw:
                     json.dump(default_config, fw, indent=4)
                 return default_config
@@ -94,12 +101,12 @@ def load_config():
             return config
 
     except json.JSONDecodeError as e:
-        logger.error(f"Bad JSON in config → restoring defaults: {e}")
+        logger.error(f"Bad JSON in config -> restoring defaults: {e}")
         with open(config_path, "w") as f:
             json.dump(default_config, f, indent=4)
         return default_config
     except Exception as e:
-        logger.error(f"Config load error → defaults: {e}")
+        logger.error(f"Config load error -> defaults: {e}")
         return default_config
 
 # ----------------------------------------------------------------------

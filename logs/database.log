@@ -1025,3 +1025,305 @@
 2026-02-27 19:37:33,962 - INFO - LoginWindow shown, MainWindow withdrawn
 2026-02-27 19:38:03,947 - INFO - Scheduler has been shut down
 2026-02-27 19:38:03,948 - INFO - Closed all connections in pool
+2026-02-27 19:50:31,047 - INFO - Scheduler has been shut down
+2026-02-27 19:50:31,089 - INFO - Closed all connections in pool
+2026-02-27 20:16:30,452 - INFO - Using logs directory: c:\Users\Harry\Ream_Management_System\logs
+2026-02-27 20:16:30,466 - INFO - Initializing ConnectionPool for database/ream_management.db with max_connections=25
+2026-02-27 20:16:30,466 - INFO - Initialized connection pool for database/ream_management.db with 25 max connections
+2026-02-27 20:16:30,475 - INFO - Using ADMIN_PASSWORD from environment
+2026-02-27 20:16:30,924 - INFO - Production database schema v1.0.0 initialized securely.
+2026-02-27 20:16:30,935 - INFO - Stock reconciled.
+2026-02-27 20:16:30,936 - INFO - Database fully initialized at database/ream_management.db
+2026-02-27 20:16:30,936 - INFO - Database initialised at database/ream_management.db
+2026-02-27 20:16:30,937 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:16:30,939 - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-27 20:16:30,945 - INFO - Added job "Year-end Student Auto-Promotion" to job store "default"
+2026-02-27 20:16:30,945 - INFO - Scheduler started
+2026-02-27 20:16:30,948 - INFO - Auto-promotion scheduled for 12/31 at 23:55
+2026-02-27 20:16:30,948 - INFO - Launching GUI
+2026-02-27 20:16:31,155 - INFO - Initializing MainWindow
+2026-02-27 20:16:31,156 - INFO - Set theme: dark/green
+2026-02-27 20:16:31,158 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:16:31,482 - INFO - Added placeholder tab with scrollable frame: Students
+2026-02-27 20:16:31,491 - INFO - Added placeholder tab with scrollable frame: Reams
+2026-02-27 20:16:31,501 - INFO - Added placeholder tab with scrollable frame: Issues
+2026-02-27 20:16:31,509 - INFO - Added placeholder tab with scrollable frame: Reports
+2026-02-27 20:16:31,519 - INFO - Added placeholder tab with scrollable frame: Users
+2026-02-27 20:16:31,542 - INFO - Initializing LoginWindow
+2026-02-27 20:16:31,619 - INFO - Auto-filled login for admin
+2026-02-27 20:16:31,620 - INFO - LoginWindow UI initialized
+2026-02-27 20:16:31,620 - INFO - LoginWindow shown, MainWindow withdrawn
+2026-02-27 20:16:49,401 - INFO - Login OK: admin
+2026-02-27 20:16:49,410 - INFO - Remembered user: admin (admin)
+2026-02-27 20:16:49,410 - INFO - User admin logged in successfully with role admin
+2026-02-27 20:16:49,422 - INFO - User admin logged in successfully with role admin
+2026-02-27 20:16:49,445 - INFO - Welcome, admin (admin)
+2026-02-27 20:16:49,445 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:16:49,445 - INFO - ReportManager created after login
+2026-02-27 20:16:49,906 - INFO - Login OK: admin
+2026-02-27 20:16:49,906 - INFO - ReportManager: User 'admin' logged in
+2026-02-27 20:16:49,906 - INFO - ReportManager session set for admin using password
+2026-02-27 20:16:49,906 - INFO - ReportManager session set for admin using hash fallback
+2026-02-27 20:16:49,906 - INFO - ReportManager session set for admin
+2026-02-27 20:16:49,906 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:16:50,632 - INFO - Fetched 0 students by admin
+2026-02-27 20:16:50,660 - INFO - Loaded 0 student records
+2026-02-27 20:16:50,660 - INFO - Loaded 0 records for admin
+2026-02-27 20:16:50,781 - INFO - StudentsTab GUI initialized
+2026-02-27 20:16:50,781 - INFO - Initialized StudentsTab with username=admin, role=admin
+2026-02-27 20:16:50,781 - INFO - StudentsTab initialized; data will load after login
+2026-02-27 20:16:50,781 - INFO - Initialized Students tab with username=admin, role=admin
+2026-02-27 20:16:50,781 - INFO - Fetched 0 students by admin
+2026-02-27 20:16:50,834 - INFO - Loaded 0 student records
+2026-02-27 20:16:50,834 - INFO - Loaded 0 records for admin
+2026-02-27 20:16:50,843 - INFO - Refreshed data for Students tab
+2026-02-27 20:16:50,872 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:16:50,872 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:16:51,675 - INFO - Audit logged: DISPLAY (fetch_all_records) by admin
+2026-02-27 20:16:51,675 - INFO - Fetched 0 ream records by admin
+2026-02-27 20:16:51,688 - INFO - Audit logged: DISPLAY (fetch_purchase_records) by admin
+2026-02-27 20:16:51,688 - INFO - Fetched 0 purchase records by admin
+2026-02-27 20:16:51,696 - INFO - Loaded 0 ream records and 0 purchase records
+2026-02-27 20:16:51,696 - INFO - Loaded 0 ream records and 0 purchase records for admin
+2026-02-27 20:16:51,770 - INFO - ReamsTab GUI initialized
+2026-02-27 20:16:51,770 - INFO - Initialized ReamsTab with username=admin, role=admin
+2026-02-27 20:16:51,770 - INFO - ReamsTab initialized; data will load after login
+2026-02-27 20:16:51,770 - INFO - Initialized Reams tab with username=admin, role=admin
+2026-02-27 20:16:51,786 - INFO - Audit logged: DISPLAY (fetch_all_records) by admin
+2026-02-27 20:16:51,786 - INFO - Fetched 0 ream records by admin
+2026-02-27 20:16:51,806 - INFO - Audit logged: DISPLAY (fetch_purchase_records) by admin
+2026-02-27 20:16:51,806 - INFO - Fetched 0 purchase records by admin
+2026-02-27 20:16:51,806 - INFO - Loaded 0 ream records and 0 purchase records
+2026-02-27 20:16:51,806 - INFO - Loaded 0 ream records and 0 purchase records for admin
+2026-02-27 20:16:51,806 - INFO - Refreshed data for Reams tab
+2026-02-27 20:16:51,848 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:16:51,856 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:16:51,857 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:16:51,857 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:16:51,857 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:16:52,081 - INFO - Audit logged: DISPLAY (get_all_issues) by admin
+2026-02-27 20:16:52,081 - INFO - Fetched 0 issue records by admin
+2026-02-27 20:16:52,081 - INFO - Loaded 0 issue records
+2026-02-27 20:16:52,081 - INFO - Loaded 0 issue records by user admin
+2026-02-27 20:16:52,117 - INFO - IssuesTab GUI initialized
+2026-02-27 20:16:52,117 - INFO - Initializing IssuesTab with username=admin, role=admin
+2026-02-27 20:16:52,125 - INFO - IssuesTab initialized; data will load after login
+2026-02-27 20:16:52,125 - INFO - Initialized Issues tab with username=admin, role=admin
+2026-02-27 20:16:52,137 - INFO - Audit logged: DISPLAY (get_all_issues) by admin
+2026-02-27 20:16:52,137 - INFO - Fetched 0 issue records by admin
+2026-02-27 20:16:52,137 - INFO - Loaded 0 issue records
+2026-02-27 20:16:52,145 - INFO - Loaded 0 issue records by user admin
+2026-02-27 20:16:52,145 - INFO - Refreshed IssuesTab data
+2026-02-27 20:16:52,165 - INFO - Refreshed IssuesTab data
+2026-02-27 20:16:52,165 - INFO - Refreshed data for Issues tab
+2026-02-27 20:16:52,188 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:16:52,216 - INFO - Successfully validated report_config.json
+2026-02-27 20:16:52,627 - INFO - ReportsTab GUI initialized
+2026-02-27 20:16:52,627 - INFO - Initializing ReportsTab with username=admin, role=admin
+2026-02-27 20:16:52,627 - INFO - ReportsTab initialized; data will load after login
+2026-02-27 20:16:52,627 - INFO - Initialized Reports tab with username=admin, role=admin
+2026-02-27 20:16:52,627 - INFO - ReportsTab user updated: admin (admin)
+2026-02-27 20:16:52,627 - INFO - ReportsTab authorized as admin (admin)
+2026-02-27 20:16:52,627 - INFO - Refreshed ReportsTab data
+2026-02-27 20:16:52,648 - INFO - Refreshed ReportsTab data
+2026-02-27 20:16:52,648 - INFO - Refreshed data for Reports tab
+2026-02-27 20:16:52,662 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:16:52,753 - INFO - All users fetched by admin
+2026-02-27 20:16:52,753 - INFO - Loaded 1 user records
+2026-02-27 20:16:52,753 - INFO - Loaded 1 user records for user admin
+2026-02-27 20:16:52,802 - INFO - UserTab GUI initialized
+2026-02-27 20:16:52,802 - INFO - Initialized UserTab with username=admin, role=admin
+2026-02-27 20:16:52,802 - INFO - UserTab initialized; data will load after login
+2026-02-27 20:16:52,802 - INFO - Initialized Users tab with username=admin, role=admin
+2026-02-27 20:16:52,814 - INFO - All users fetched by admin
+2026-02-27 20:16:52,824 - INFO - Loaded 1 user records
+2026-02-27 20:16:52,824 - INFO - Loaded 1 user records for user admin
+2026-02-27 20:16:52,825 - INFO - Refreshed data for Users tab
+2026-02-27 20:16:52,897 - INFO - Audit logged: DISPLAY (get_min_stock_alert) by admin
+2026-02-27 20:16:52,897 - INFO - Fetched min stock alert (10) by admin
+2026-02-27 20:16:52,915 - INFO - Audit logged: REPORT (stock_summary) by admin
+2026-02-27 20:16:52,915 - INFO - Stock summary generated by admin
+2026-02-27 20:16:52,933 - INFO - Audit logged: REPORT (overview) by admin
+2026-02-27 20:16:52,933 - INFO - Generated overview report by admin
+2026-02-27 20:16:52,941 - INFO - Updated stock overview
+2026-02-27 20:16:53,045 - INFO - Started fade-in animation for Students
+2026-02-27 20:16:53,046 - INFO - Fetched 0 students by admin
+2026-02-27 20:16:53,113 - INFO - Loaded 0 student records
+2026-02-27 20:16:53,113 - INFO - Loaded 0 records for admin
+2026-02-27 20:16:53,113 - INFO - Refreshed data for Students tab
+2026-02-27 20:16:53,168 - INFO - Switched to Students tab
+2026-02-27 20:16:53,168 - INFO - MainWindow deiconified and initialized after login
+2026-02-27 20:16:53,292 - INFO - Audit logged: DISPLAY (get_min_stock_alert) by admin
+2026-02-27 20:16:53,297 - INFO - Fetched min stock alert (10) by admin
+2026-02-27 20:16:53,308 - INFO - Audit logged: REPORT (stock_summary) by admin
+2026-02-27 20:16:53,308 - INFO - Stock summary generated by admin
+2026-02-27 20:16:53,327 - INFO - Audit logged: REPORT (overview) by admin
+2026-02-27 20:16:53,327 - INFO - Generated overview report by admin
+2026-02-27 20:16:53,335 - INFO - Updated stock overview
+2026-02-27 20:17:04,126 - INFO - Started fade-in animation for Reports
+2026-02-27 20:17:04,128 - INFO - Refreshed ReportsTab data
+2026-02-27 20:17:04,143 - INFO - Refreshed ReportsTab data
+2026-02-27 20:17:04,143 - INFO - Refreshed data for Reports tab
+2026-02-27 20:17:04,160 - INFO - Switched to Reports tab
+2026-02-27 20:17:05,182 - INFO - Started fade-in animation for Issues
+2026-02-27 20:17:05,196 - INFO - Audit logged: DISPLAY (get_all_issues) by admin
+2026-02-27 20:17:05,196 - INFO - Fetched 0 issue records by admin
+2026-02-27 20:17:05,196 - INFO - Loaded 0 issue records
+2026-02-27 20:17:05,204 - INFO - Loaded 0 issue records by user admin
+2026-02-27 20:17:05,204 - INFO - Refreshed IssuesTab data
+2026-02-27 20:17:05,225 - INFO - Refreshed IssuesTab data
+2026-02-27 20:17:05,225 - INFO - Refreshed data for Issues tab
+2026-02-27 20:17:05,243 - INFO - Switched to Issues tab
+2026-02-27 20:17:06,083 - INFO - Started fade-in animation for Reams
+2026-02-27 20:17:06,099 - INFO - Audit logged: DISPLAY (fetch_all_records) by admin
+2026-02-27 20:17:06,099 - INFO - Fetched 0 ream records by admin
+2026-02-27 20:17:06,117 - INFO - Audit logged: DISPLAY (fetch_purchase_records) by admin
+2026-02-27 20:17:06,123 - INFO - Fetched 0 purchase records by admin
+2026-02-27 20:17:06,124 - INFO - Loaded 0 ream records and 0 purchase records
+2026-02-27 20:17:06,124 - INFO - Loaded 0 ream records and 0 purchase records for admin
+2026-02-27 20:17:06,124 - INFO - Refreshed data for Reams tab
+2026-02-27 20:17:06,150 - INFO - Switched to Reams tab
+2026-02-27 20:17:07,492 - INFO - Initializing SettingsWindow
+2026-02-27 20:17:07,749 - INFO - SettingsWindow with scroll initialized
+2026-02-27 20:17:07,749 - INFO - Settings window opened
+2026-02-27 20:17:07,749 - INFO - Settings window opened by admin
+2026-02-27 20:17:12,533 - INFO - User admin exited application
+2026-02-27 20:17:12,533 - INFO - User admin exited application
+2026-02-27 20:17:12,533 - INFO - Scheduler has been shut down
+2026-02-27 20:17:12,585 - INFO - Closed all connections in pool
+2026-02-27 20:54:08,534 - INFO - Using logs directory: c:\Users\Harry\Ream_Management_System\logs
+2026-02-27 20:54:08,549 - INFO - Initializing ConnectionPool for database/ream_management.db with max_connections=25
+2026-02-27 20:54:08,550 - INFO - Initialized connection pool for database/ream_management.db with 25 max connections
+2026-02-27 20:54:08,559 - INFO - Using ADMIN_PASSWORD from environment
+2026-02-27 20:54:09,075 - INFO - Production database schema v1.0.0 initialized securely.
+2026-02-27 20:54:09,088 - INFO - Stock reconciled.
+2026-02-27 20:54:09,089 - INFO - Database fully initialized at database/ream_management.db
+2026-02-27 20:54:09,089 - INFO - Database initialised at database/ream_management.db
+2026-02-27 20:54:09,090 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:54:09,104 - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-02-27 20:54:09,109 - INFO - Added job "Year-end Student Auto-Promotion" to job store "default"
+2026-02-27 20:54:09,109 - INFO - Scheduler started
+2026-02-27 20:54:09,113 - INFO - Auto-promotion scheduled for 12/31 at 23:55
+2026-02-27 20:54:09,113 - INFO - Launching GUI
+2026-02-27 20:54:09,377 - INFO - Initializing MainWindow
+2026-02-27 20:54:09,383 - INFO - Set theme: dark/green
+2026-02-27 20:54:09,385 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:54:09,760 - INFO - Added placeholder tab with scrollable frame: Students
+2026-02-27 20:54:09,769 - INFO - Added placeholder tab with scrollable frame: Reams
+2026-02-27 20:54:09,780 - INFO - Added placeholder tab with scrollable frame: Issues
+2026-02-27 20:54:09,791 - INFO - Added placeholder tab with scrollable frame: Reports
+2026-02-27 20:54:09,806 - INFO - Added placeholder tab with scrollable frame: Users
+2026-02-27 20:54:09,835 - INFO - Initializing LoginWindow
+2026-02-27 20:54:09,948 - INFO - Auto-filled login for admin
+2026-02-27 20:54:09,948 - INFO - LoginWindow UI initialized
+2026-02-27 20:54:09,948 - INFO - LoginWindow shown, MainWindow withdrawn
+2026-02-27 20:54:17,404 - INFO - Login OK: admin
+2026-02-27 20:54:17,502 - INFO - Welcome, admin (admin)
+2026-02-27 20:54:17,511 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:54:17,513 - INFO - ReportManager created after login
+2026-02-27 20:54:18,033 - INFO - Login OK: admin
+2026-02-27 20:54:18,033 - INFO - ReportManager: User 'admin' logged in
+2026-02-27 20:54:18,034 - INFO - ReportManager session set for admin using password
+2026-02-27 20:54:18,034 - INFO - ReportManager session set for admin using hash fallback
+2026-02-27 20:54:18,034 - INFO - ReportManager session set for admin
+2026-02-27 20:54:18,035 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:54:18,829 - INFO - Fetched 0 students by admin
+2026-02-27 20:54:18,861 - INFO - Loaded 0 student records
+2026-02-27 20:54:18,861 - INFO - Loaded 0 records for admin
+2026-02-27 20:54:18,953 - INFO - StudentsTab GUI initialized
+2026-02-27 20:54:18,954 - INFO - Initialized StudentsTab with username=admin, role=admin
+2026-02-27 20:54:18,955 - INFO - StudentsTab initialized; data will load after login
+2026-02-27 20:54:18,956 - INFO - Initialized Students tab with username=admin, role=admin
+2026-02-27 20:54:18,956 - INFO - Fetched 0 students by admin
+2026-02-27 20:54:19,034 - INFO - Loaded 0 student records
+2026-02-27 20:54:19,034 - INFO - Loaded 0 records for admin
+2026-02-27 20:54:19,041 - INFO - Refreshed data for Students tab
+2026-02-27 20:54:19,098 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:54:19,098 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:54:19,882 - INFO - Audit logged: DISPLAY (fetch_all_records) by admin
+2026-02-27 20:54:19,882 - INFO - Fetched 0 ream records by admin
+2026-02-27 20:54:19,895 - INFO - Audit logged: DISPLAY (fetch_purchase_records) by admin
+2026-02-27 20:54:19,895 - INFO - Fetched 0 purchase records by admin
+2026-02-27 20:54:19,903 - INFO - Loaded 0 ream records and 0 purchase records
+2026-02-27 20:54:19,903 - INFO - Loaded 0 ream records and 0 purchase records for admin
+2026-02-27 20:54:19,961 - INFO - ReamsTab GUI initialized
+2026-02-27 20:54:19,961 - INFO - Initialized ReamsTab with username=admin, role=admin
+2026-02-27 20:54:19,962 - INFO - ReamsTab initialized; data will load after login
+2026-02-27 20:54:19,962 - INFO - Initialized Reams tab with username=admin, role=admin
+2026-02-27 20:54:19,977 - INFO - Audit logged: DISPLAY (fetch_all_records) by admin
+2026-02-27 20:54:19,977 - INFO - Fetched 0 ream records by admin
+2026-02-27 20:54:20,000 - INFO - Audit logged: DISPLAY (fetch_purchase_records) by admin
+2026-02-27 20:54:20,000 - INFO - Fetched 0 purchase records by admin
+2026-02-27 20:54:20,001 - INFO - Loaded 0 ream records and 0 purchase records
+2026-02-27 20:54:20,002 - INFO - Loaded 0 ream records and 0 purchase records for admin
+2026-02-27 20:54:20,003 - INFO - Refreshed data for Reams tab
+2026-02-27 20:54:20,035 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:54:20,035 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:54:20,035 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:54:20,035 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:54:20,035 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:54:20,266 - INFO - Audit logged: DISPLAY (get_all_issues) by admin
+2026-02-27 20:54:20,266 - INFO - Fetched 0 issue records by admin
+2026-02-27 20:54:20,271 - INFO - Loaded 0 issue records
+2026-02-27 20:54:20,271 - INFO - Loaded 0 issue records by user admin
+2026-02-27 20:54:20,318 - INFO - IssuesTab GUI initialized
+2026-02-27 20:54:20,318 - INFO - Initializing IssuesTab with username=admin, role=admin
+2026-02-27 20:54:20,321 - INFO - IssuesTab initialized; data will load after login
+2026-02-27 20:54:20,322 - INFO - Initialized Issues tab with username=admin, role=admin
+2026-02-27 20:54:20,341 - INFO - Audit logged: DISPLAY (get_all_issues) by admin
+2026-02-27 20:54:20,341 - INFO - Fetched 0 issue records by admin
+2026-02-27 20:54:20,341 - INFO - Loaded 0 issue records
+2026-02-27 20:54:20,341 - INFO - Loaded 0 issue records by user admin
+2026-02-27 20:54:20,344 - INFO - Refreshed IssuesTab data
+2026-02-27 20:54:20,364 - INFO - Refreshed IssuesTab data
+2026-02-27 20:54:20,369 - INFO - Refreshed data for Issues tab
+2026-02-27 20:54:20,387 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:54:20,407 - INFO - Successfully validated report_config.json
+2026-02-27 20:54:20,827 - INFO - ReportsTab GUI initialized
+2026-02-27 20:54:20,827 - INFO - Initializing ReportsTab with username=admin, role=admin
+2026-02-27 20:54:20,831 - INFO - ReportsTab initialized; data will load after login
+2026-02-27 20:54:20,831 - INFO - Initialized Reports tab with username=admin, role=admin
+2026-02-27 20:54:20,831 - INFO - ReportsTab user updated: admin (admin)
+2026-02-27 20:54:20,832 - INFO - ReportsTab authorized as admin (admin)
+2026-02-27 20:54:20,833 - INFO - Refreshed ReportsTab data
+2026-02-27 20:54:20,851 - INFO - Refreshed ReportsTab data
+2026-02-27 20:54:20,854 - INFO - Refreshed data for Reports tab
+2026-02-27 20:54:20,864 - INFO - UserManager initialized for database/ream_management.db
+2026-02-27 20:54:20,950 - INFO - All users fetched by admin
+2026-02-27 20:54:20,957 - INFO - Loaded 1 user records
+2026-02-27 20:54:20,957 - INFO - Loaded 1 user records for user admin
+2026-02-27 20:54:21,009 - INFO - UserTab GUI initialized
+2026-02-27 20:54:21,009 - INFO - Initialized UserTab with username=admin, role=admin
+2026-02-27 20:54:21,010 - INFO - UserTab initialized; data will load after login
+2026-02-27 20:54:21,010 - INFO - Initialized Users tab with username=admin, role=admin
+2026-02-27 20:54:21,029 - INFO - All users fetched by admin
+2026-02-27 20:54:21,030 - INFO - Loaded 1 user records
+2026-02-27 20:54:21,030 - INFO - Loaded 1 user records for user admin
+2026-02-27 20:54:21,032 - INFO - Refreshed data for Users tab
+2026-02-27 20:54:21,108 - INFO - Audit logged: DISPLAY (get_min_stock_alert) by admin
+2026-02-27 20:54:21,108 - INFO - Fetched min stock alert (10) by admin
+2026-02-27 20:54:21,127 - INFO - Audit logged: REPORT (stock_summary) by admin
+2026-02-27 20:54:21,127 - INFO - Stock summary generated by admin
+2026-02-27 20:54:21,149 - INFO - Audit logged: REPORT (overview) by admin
+2026-02-27 20:54:21,149 - INFO - Generated overview report by admin
+2026-02-27 20:54:21,152 - INFO - Updated stock overview
+2026-02-27 20:54:21,294 - INFO - Started fade-in animation for Students
+2026-02-27 20:54:21,294 - INFO - Fetched 0 students by admin
+2026-02-27 20:54:21,327 - INFO - Loaded 0 student records
+2026-02-27 20:54:21,327 - INFO - Loaded 0 records for admin
+2026-02-27 20:54:21,330 - INFO - Refreshed data for Students tab
+2026-02-27 20:54:21,362 - INFO - Switched to Students tab
+2026-02-27 20:54:21,362 - INFO - MainWindow deiconified and initialized after login
+2026-02-27 20:54:21,369 - INFO - Auto-login successful for admin
+2026-02-27 20:54:21,370 - INFO - Auto-login: admin
+2026-02-27 20:54:21,427 - INFO - Audit logged: DISPLAY (get_min_stock_alert) by admin
+2026-02-27 20:54:21,427 - INFO - Fetched min stock alert (10) by admin
+2026-02-27 20:54:21,448 - INFO - Audit logged: REPORT (stock_summary) by admin
+2026-02-27 20:54:21,449 - INFO - Stock summary generated by admin
+2026-02-27 20:54:21,464 - INFO - Audit logged: REPORT (overview) by admin
+2026-02-27 20:54:21,464 - INFO - Generated overview report by admin
+2026-02-27 20:54:21,471 - INFO - Updated stock overview
+2026-02-27 20:54:34,382 - INFO - User admin exited application
+2026-02-27 20:54:34,382 - INFO - User admin exited application
+2026-02-27 20:54:34,383 - INFO - Scheduler has been shut down
+2026-02-27 20:54:34,399 - INFO - Closed all connections in pool

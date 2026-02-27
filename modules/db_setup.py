@@ -3,6 +3,7 @@ import os
 import getpass
 import atexit
 import logging
+import sys
 import threading
 import queue
 import shutil
@@ -17,14 +18,21 @@ import bcrypt
 # Load environment variables from .env file
 load_dotenv()
 
-# Configure logging
+# Configure logging with UTF-8 encoding
 os.makedirs("logs", exist_ok=True)
+file_handler = logging.FileHandler("logs/database.log", encoding='utf-8')
+stream_handler = logging.StreamHandler(sys.stdout)
+try:
+    stream_handler.stream.reconfigure(encoding='utf-8')
+except:
+    pass  # May fail in some environments
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('logs/database.log'),
-        logging.StreamHandler()
+        file_handler,
+        stream_handler
     ]
 )
 logger = logging.getLogger(__name__)
@@ -45,6 +53,24 @@ def get_db_pool():
 # ===================================================================
 # 0. Cross-Platform Data Directory (Windows permission fix)
 # ===================================================================
+def get_app_dir() -> str:
+    """
+    Get the directory where the application is installed.
+    
+    This works for both development mode (running from source) and
+    frozen mode (running from installed exe).
+    """
+    import sys
+    
+    # Check if running as frozen (PyInstaller/cx_Freeze)
+    if getattr(sys, 'frozen', False):
+        # Running as compiled exe - get the directory of the exe
+        return os.path.dirname(sys.executable)
+    else:
+        # Running in development mode - use current working directory
+        return os.getcwd()
+
+
 def get_app_data_dir(app_name: str = "ReamManagement") -> str:
     """
     Get the appropriate data directory for the application.
@@ -91,56 +117,118 @@ def get_database_path(default_relative: str = "database/ream_management.db") -> 
     
     Priority:
     1. Environment variable DATABASE_PATH (absolute path)
-    2. Platform-specific user data directory
-    3. Relative path from current location (fallback)
+    2. Platform-specific user data directory (always writable - recommended)
+    3. Relative path from application directory (fallback for portable mode)
+    
+    NOTE: We always use app data directory for installed apps because:
+    - Program Files requires admin privileges to write
+    - SQLite can't create databases in Program Files
     """
     # Check for environment variable override
     env_path = os.environ.get("DATABASE_PATH")
     if env_path:
         return env_path
     
-    # Use platform-appropriate directory
-    app_dir = get_app_data_dir()
+    # Get the application directory (works for both dev and frozen mode)
+    app_dir = get_app_dir()
     
-    # Check if we're running from the project root (development mode)
-    # or from an installed location
-    if os.path.exists(default_relative):
-        # Development mode - use relative path
-        return default_relative
+    # Check if we're running in portable mode (dev or portable install)
+    # Portable mode: database is next to the exe
+    app_db_path = os.path.join(app_dir, default_relative)
+    
+    # For installed apps, always use user-writable app data directory
+    # This avoids permission issues in Program Files
+    is_frozen = getattr(sys, 'frozen', False)
+    
+    if is_frozen:
+        # Installed mode: use app data directory (writable)
+        data_dir = get_app_data_dir()
+        os.makedirs(data_dir, exist_ok=True)
+        db_path = os.path.join(data_dir, "ream_management.db")
+        
+        # If database exists in app directory (from install), copy it to app data
+        if os.path.exists(app_db_path) and not os.path.exists(db_path):
+            import shutil
+            shutil.copy2(app_db_path, db_path)
+        
+        return db_path
     else:
-        # Installed/frozen mode - use app data directory
-        os.makedirs(app_dir, exist_ok=True)
-        return os.path.join(app_dir, "ream_management.db")
+        # Development mode: use relative path or app directory
+        if os.path.exists(app_db_path):
+            return app_db_path
+        if os.path.exists(default_relative):
+            return default_relative
+        
+        # Fallback to app data
+        data_dir = get_app_data_dir()
+        os.makedirs(data_dir, exist_ok=True)
+        return os.path.join(data_dir, "ream_management.db")
 
 
 def get_logs_dir(default_relative: str = "logs") -> str:
-    """Get logs directory with proper cross-platform handling."""
+    """Get logs directory with proper cross-platform handling.
+    
+    For installed apps, always uses user-writable app data directory.
+    """
     env_path = os.environ.get("LOGS_PATH")
     if env_path:
         return env_path
     
-    app_dir = get_app_data_dir()
+    # For installed apps, always use user-writable app data directory
+    is_frozen = getattr(sys, 'frozen', False)
     
-    if os.path.exists(default_relative):
-        return default_relative
+    if is_frozen:
+        # Installed mode: use app data directory
+        data_dir = get_app_data_dir()
+        logs_path = os.path.join(data_dir, "logs")
+        os.makedirs(logs_path, exist_ok=True)
+        return logs_path
     else:
-        os.makedirs(app_dir, exist_ok=True)
-        return os.path.join(app_dir, "logs")
+        # Development mode: use relative path or app directory
+        app_dir = get_app_dir()
+        app_logs_path = os.path.join(app_dir, default_relative)
+        if os.path.exists(app_logs_path):
+            return app_logs_path
+        if os.path.exists(default_relative):
+            return default_relative
+        
+        # Fallback to app data
+        data_dir = get_app_data_dir()
+        os.makedirs(data_dir, exist_ok=True)
+        return os.path.join(data_dir, "logs")
 
 
 def get_config_dir(default_relative: str = "config") -> str:
-    """Get config directory with proper cross-platform handling."""
+    """Get config directory with proper cross-platform handling.
+    
+    For installed apps, always uses user-writable app data directory.
+    """
     env_path = os.environ.get("CONFIG_PATH")
     if env_path:
         return env_path
     
-    app_dir = get_app_data_dir()
+    # For installed apps, always use user-writable app data directory
+    is_frozen = getattr(sys, 'frozen', False)
     
-    if os.path.exists(default_relative):
-        return default_relative
+    if is_frozen:
+        # Installed mode: use app data directory
+        data_dir = get_app_data_dir()
+        config_path = os.path.join(data_dir, "config")
+        os.makedirs(config_path, exist_ok=True)
+        return config_path
     else:
-        os.makedirs(app_dir, exist_ok=True)
-        return os.path.join(app_dir, "config")
+        # Development mode: use relative path or app directory
+        app_dir = get_app_dir()
+        app_config_path = os.path.join(app_dir, default_relative)
+        if os.path.exists(app_config_path):
+            return app_config_path
+        if os.path.exists(default_relative):
+            return default_relative
+        
+        # Fallback to app data
+        data_dir = get_app_data_dir()
+        os.makedirs(data_dir, exist_ok=True)
+        return os.path.join(data_dir, "config")
 
 
 # ===================================================================
