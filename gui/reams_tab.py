@@ -2,6 +2,7 @@ import customtkinter as ctk
 from tkinter import ttk, filedialog, messagebox
 from modules.ream_manager import ReamManager
 from gui.utils import show_error, show_info, validate_not_empty, validate_positive_int
+from modules.db_setup import get_logs_dir
 import logging
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
@@ -19,12 +20,13 @@ from datetime import datetime
 from tkcalendar import Calendar
 
 # Configure logging
-os.makedirs("logs", exist_ok=True)
+logs_dir = get_logs_dir()
+os.makedirs(logs_dir, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('logs/reams_tab.log'),
+        logging.FileHandler(os.path.join(logs_dir, 'reams_tab.log')),
         logging.StreamHandler()
     ]
 )

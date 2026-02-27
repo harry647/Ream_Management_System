@@ -21,14 +21,16 @@ from PIL import Image as PILImage, ImageTk
 import logging
 from typing import List, Dict, Optional
 from datetime import datetime
+from modules.db_setup import get_logs_dir, get_config_dir
 
 # Configure logging 
-os.makedirs("logs", exist_ok=True)
+logs_dir = get_logs_dir()
+os.makedirs(logs_dir, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("logs/report_export.log"),
+        logging.FileHandler(os.path.join(logs_dir, "report_export.log")),
         logging.StreamHandler()
     ]
 )
@@ -41,8 +43,9 @@ class ReportExporter:
 
     def load_config(self) -> Dict:
         """Load and validate report configuration from JSON file."""
-        config_path = "config/report_config.json"
-        schema_path = "config/report_config_schema.json"
+        config_dir = get_config_dir()
+        config_path = os.path.join(config_dir, "report_config.json")
+        schema_path = os.path.join(config_dir, "report_config_schema.json")
         default_config = {
             "school": {
                 "name": "Bar Union Secondary School",

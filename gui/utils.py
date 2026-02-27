@@ -5,15 +5,17 @@ import sys
 from datetime import datetime
 from typing import Optional, Callable, Set
 from modules.user_manager import UserManager
+from modules.db_setup import get_logs_dir
 import logging
 
 # Configure logging with UTF-8 encoding
-os.makedirs("logs", exist_ok=True)
+logs_dir = get_logs_dir()
+os.makedirs(logs_dir, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('logs/utils.log', encoding='utf-8'),  # UTF-8
+        logging.FileHandler(os.path.join(logs_dir, 'utils.log'), encoding='utf-8'),  # UTF-8
         logging.StreamHandler(sys.stdout)  # Console
     ]
 )

@@ -5,14 +5,16 @@ import json
 import logging
 from datetime import datetime
 import os
+from modules.db_setup import get_logs_dir, get_config_dir
 
 # Configure logging
-os.makedirs("logs", exist_ok=True)
+logs_dir = get_logs_dir()
+os.makedirs(logs_dir, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('logs/settings.log'),
+        logging.FileHandler(os.path.join(logs_dir, 'settings.log')),
         logging.StreamHandler()
     ]
 )
@@ -32,7 +34,7 @@ class SettingsWindow(ctk.CTkToplevel):
         self.icons = icons
         self.update_title_callback = update_title_callback
         self.update_theme_callback = update_theme_callback
-        self.theme_file = "config/theme.json"
+        self.theme_file = os.path.join(get_config_dir(), "theme.json")
         self.configure(fg_color="#1E1E1E")
         logger.info("Initializing SettingsWindow")
 

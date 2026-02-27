@@ -3,6 +3,7 @@ import customtkinter as ctk
 from tkinter import ttk, messagebox
 from modules.user_manager import UserManager
 from gui.utils import show_error, show_info, validate_not_empty, validate_username, validate_password
+from modules.db_setup import get_logs_dir
 import logging
 import os
 from typing import Optional, Callable, Any
@@ -11,12 +12,13 @@ import threading
 # ----------------------------------------------------------------------
 # Logging
 # ----------------------------------------------------------------------
-os.makedirs("logs", exist_ok=True)
+logs_dir = get_logs_dir()
+os.makedirs(logs_dir, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('logs/user_tab.log'),
+        logging.FileHandler(os.path.join(logs_dir, 'user_tab.log')),
         logging.StreamHandler()
     ]
 )

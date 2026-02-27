@@ -3,6 +3,7 @@ from tkinter import ttk, filedialog, messagebox, StringVar
 from modules.issue_manager import IssueManager
 from modules.ream_manager import ReamManager
 from gui.utils import show_error, show_info, validate_positive_int
+from modules.db_setup import get_logs_dir
 import logging
 from typing import List, Dict, Optional
 import re
@@ -17,12 +18,13 @@ from tkcalendar import Calendar
 # ----------------------------------------------------------------------
 # Logging (first thing!)
 # ----------------------------------------------------------------------
-os.makedirs("logs", exist_ok=True)
+logs_dir = get_logs_dir()
+os.makedirs(logs_dir, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler("logs/issue_tab.log"),
+        logging.FileHandler(os.path.join(logs_dir, "issue_tab.log")),
         logging.StreamHandler()
     ]
 )

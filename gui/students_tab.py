@@ -2,6 +2,7 @@ import customtkinter as ctk
 from tkinter import ttk, filedialog, messagebox
 from modules.student_manager import StudentManager
 from gui.utils import show_error, show_info
+from modules.db_setup import get_logs_dir
 import logging
 import os
 from typing import List, Dict, Optional
@@ -18,12 +19,13 @@ class CancelledException(Exception):
 
 
 # Configure logging
-os.makedirs("logs", exist_ok=True)
+logs_dir = get_logs_dir()
+os.makedirs(logs_dir, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('logs/students_tab.log'),
+        logging.FileHandler(os.path.join(logs_dir, 'students_tab.log')),
         logging.StreamHandler()
     ]
 )

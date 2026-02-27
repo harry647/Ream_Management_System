@@ -16,7 +16,9 @@ from modules.db_setup import (
     backup_database,
     get_cumulative_ream_requirements,
     get_term_from_date,
-    get_db_pool
+    get_db_pool,
+    get_logs_dir,
+    get_database_path
 )
 from modules.student_manager import StudentManager
 from modules.user_manager import UserManager
@@ -26,18 +28,19 @@ import threading
 import json
 
 # Configure logging
-os.makedirs("logs", exist_ok=True)
+logs_dir = get_logs_dir()
+os.makedirs(logs_dir, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('logs/ream_manager.log'),
+        logging.FileHandler(os.path.join(logs_dir, 'ream_manager.log')),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
 
-DB_NAME = "database/ream_management.db"
+DB_NAME = get_database_path()
 
 # Uses global db_pool from db_setup.py
 

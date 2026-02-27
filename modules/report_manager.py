@@ -4,7 +4,7 @@ import re
 import os
 from datetime import datetime
 from typing import List, Dict, Optional, Any
-from modules.db_setup import get_db_connection, release_db_connection, get_cumulative_ream_requirements, get_db_pool  
+from modules.db_setup import get_db_connection, release_db_connection, get_cumulative_ream_requirements, get_db_pool, get_logs_dir, get_database_path  
 from modules.user_manager import UserManager
 import csv
 import json
@@ -16,18 +16,19 @@ import pandas as pd
 # ----------------------------------------------------------------------
 # Logging configuration
 # ----------------------------------------------------------------------
-os.makedirs("logs", exist_ok=True)
+logs_dir = get_logs_dir()
+os.makedirs(logs_dir, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('logs/report_manager.log'),
+        logging.FileHandler(os.path.join(logs_dir, 'report_manager.log')),
         logging.StreamHandler()
     ]
 )
 logger = logging.getLogger(__name__)
 
-DB_NAME = "database/ream_management.db"
+DB_NAME = get_database_path()
 
 
 # ----------------------------------------------------------------------

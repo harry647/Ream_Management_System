@@ -6,9 +6,11 @@ import os
 from datetime import datetime
 
 # Import connection pool from db_setup (single source of truth)
-from modules.db_setup import get_db_connection, release_db_connection, db_pool
+from modules.db_setup import get_db_connection, release_db_connection, db_pool, get_logs_dir
 
 # Configure logging (use existing from db_setup if possible)
+logs_dir = get_logs_dir()
+os.makedirs(logs_dir, exist_ok=True)
 try:
     logger = logging.getLogger(__name__)
 except:
@@ -16,7 +18,7 @@ except:
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s',
         handlers=[
-            logging.FileHandler('logs/database.log'),
+            logging.FileHandler(os.path.join(logs_dir, 'database.log')),
             logging.StreamHandler()
         ]
     )
@@ -130,7 +132,8 @@ def import_reams_brought_data(data_list):
 
         # Save missing students to file
         if missing_students:
-            missing_file = 'logs/missing_students.txt'
+            missing_file = os.path.join(get_logs_dir(), 'missing_students.txt')
+            os.makedirs(os.path.dirname(missing_file), exist_ok=True)
             with open(missing_file, 'w') as f:  # Overwrite file for each import
                 for adm_no, quantity, date_brought in missing_students:
                     f.write(f"Admission No: {adm_no}, Quantity: {quantity}, Date: {date_brought}\n")

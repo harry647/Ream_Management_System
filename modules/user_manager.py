@@ -12,18 +12,19 @@ from tkinter import messagebox
 # ----------------------------------------------------------------------
 # Global helpers from db_setup (the only place we touch the DB)
 # ----------------------------------------------------------------------
-from modules.db_setup import get_db_connection, release_db_connection
+from modules.db_setup import get_db_connection, release_db_connection, get_logs_dir, get_database_path
 
 # ----------------------------------------------------------------------
 # Logging
 # ----------------------------------------------------------------------
 # Configure logging
-os.makedirs("logs", exist_ok=True)
+logs_dir = get_logs_dir()
+os.makedirs(logs_dir, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('logs/user_manager.log'),
+        logging.FileHandler(os.path.join(logs_dir, 'user_manager.log')),
         logging.StreamHandler()
     ]
 )
@@ -51,8 +52,8 @@ class UserManager:
     # ------------------------------------------------------------------
     # Construction
     # ------------------------------------------------------------------
-    def __init__(self, db_name: str = "database/ream_management.db"):
-        self.db_name = db_name
+    def __init__(self, db_name: str = None):
+        self.db_name = db_name if db_name else get_database_path()
         self.valid_roles = {"admin", "staff", "viewer"}
         self.valid_statuses = {"active", "inactive"}
         self.lock = threading.Lock()

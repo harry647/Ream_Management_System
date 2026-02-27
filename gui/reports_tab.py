@@ -6,6 +6,7 @@ from modules.report_manager import ReportManager
 from modules.student_manager import StudentManager
 from gui.utils import show_error, show_info
 from reports.report_export import ReportExporter
+from modules.db_setup import get_logs_dir
 import os
 import subprocess
 import sys
@@ -41,12 +42,13 @@ else:
     HAS_WIN32_PRINTING = False
 
 # Configure logging
-os.makedirs("logs", exist_ok=True)
+logs_dir = get_logs_dir()
+os.makedirs(logs_dir, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('logs/reports_tab.log'),
+        logging.FileHandler(os.path.join(logs_dir, 'reports_tab.log')),
         logging.StreamHandler()
     ]
 )

@@ -12,6 +12,7 @@ from gui.settings import SettingsWindow
 from modules.user_manager import UserManager
 from modules.report_manager import ReportManager
 from gui.utils import show_error, show_info
+from modules.db_setup import get_logs_dir, get_config_dir, get_database_path
 import logging
 import json
 import os
@@ -20,12 +21,13 @@ from datetime import datetime
 import time
 
 # Configure logging
-os.makedirs("logs", exist_ok=True)
+logs_dir = get_logs_dir()
+os.makedirs(logs_dir, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('logs/main_window.log'),
+        logging.FileHandler(os.path.join(logs_dir, 'main_window.log')),
         logging.StreamHandler()
     ]
 )
@@ -129,7 +131,8 @@ class LoginWindow(ctk.CTkToplevel):
 
     def load_remembered_user(self):
         """Load remembered username and role from config/last_user.json"""
-        config_path = "config/last_user.json"
+        config_dir = get_config_dir()
+        config_path = os.path.join(config_dir, "last_user.json")
         if not os.path.exists(config_path):
             return None
         try:
@@ -145,7 +148,8 @@ class LoginWindow(ctk.CTkToplevel):
         if not self.remember_var.get():
 
             # Clear file if unchecked
-            config_path = "config/last_user.json"
+            config_dir = get_config_dir()
+            config_path = os.path.join(config_dir, "last_user.json")
             if os.path.exists(config_path):
                 os.remove(config_path)
             return
@@ -155,8 +159,10 @@ class LoginWindow(ctk.CTkToplevel):
             "role": role,
             "remember": True
         }
-        os.makedirs("config", exist_ok=True)
-        with open("config/last_user.json", "w") as f:
+        config_dir = get_config_dir()
+        os.makedirs(config_dir, exist_ok=True)
+        config_path = os.path.join(config_dir, "last_user.json")
+        with open(config_path, "w") as f:
             json.dump(data, f)
         logger.info(f"Remembered user: {username} ({role})")
 
@@ -216,7 +222,8 @@ class MainWindow(ctk.CTk):
         logger.info("Initializing MainWindow")
 
         # Load theme preference
-        self.theme_file = "config/theme.json"
+        config_dir = get_config_dir()
+        self.theme_file = os.path.join(config_dir, "theme.json")
         try:
             with open(self.theme_file, "r") as f:
                 theme = json.load(f)
@@ -230,14 +237,14 @@ class MainWindow(ctk.CTk):
         logger.info(f"Set theme: {appearance_mode}/{color_theme}")
 
         # Ensure directories exist
-        os.makedirs("logs", exist_ok=True)
-        os.makedirs("database", exist_ok=True)
-        os.makedirs("config", exist_ok=True)
-        os.makedirs("icons", exist_ok=True)
+        logs_dir = get_logs_dir()
+        config_dir = get_config_dir()
+        os.makedirs(logs_dir, exist_ok=True)
+        os.makedirs(config_dir, exist_ok=True)
 
         self.username = None
         self.role = None
-        self.db_name = "database/ream_management.db"
+        self.db_name = get_database_path()
         self.current_button_index = 0
         self.user_mgr = UserManager(self.db_name)
 
