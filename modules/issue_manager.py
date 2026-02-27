@@ -4,7 +4,7 @@ import shutil
 import os
 from datetime import datetime
 from typing import List, Dict, Optional
-from modules.db_setup import ConnectionPool, backup_database
+from modules.db_setup import get_db_connection, release_db_connection, backup_database, db_pool
 from modules.user_manager import UserManager
 from modules.ream_manager import ReamManager
 from reportlab.lib.pagesizes import A4
@@ -34,7 +34,7 @@ DB_NAME = "database/ream_management.db"
 class IssueManager:
     def __init__(self, db_name: str = DB_NAME):
         self.db_name = db_name
-        self.db_pool = ConnectionPool(db_name, max_connections=5)
+        # Uses global db_pool from db_setup.py
         self.user_manager = UserManager(db_name)
         self.ream_manager = ReamManager(db_name)
         self.edit_lock = threading.Lock()

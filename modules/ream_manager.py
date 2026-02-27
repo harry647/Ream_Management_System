@@ -13,9 +13,10 @@ from reportlab.lib.styles import getSampleStyleSheet
 from tkinter import filedialog, Tk
 from typing import List, Optional, Dict, Union
 from modules.db_setup import (
-    ConnectionPool, backup_database,
+    backup_database,
     get_cumulative_ream_requirements,
-    get_term_from_date  
+    get_term_from_date,
+    db_pool
 )
 from modules.student_manager import StudentManager
 from modules.user_manager import UserManager
@@ -38,8 +39,7 @@ logger = logging.getLogger(__name__)
 
 DB_NAME = "database/ream_management.db"
 
-# Initialize connection pool
-db_pool = ConnectionPool(DB_NAME, max_connections=5)
+# Uses global db_pool from db_setup.py
 
 class ReamManager:
     def __init__(self, db_name: str = DB_NAME):

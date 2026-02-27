@@ -4,7 +4,7 @@ import re
 import os
 from datetime import datetime
 from typing import List, Dict, Optional, Any
-from modules.db_setup import ConnectionPool, get_cumulative_ream_requirements  
+from modules.db_setup import get_db_connection, release_db_connection, get_cumulative_ream_requirements, db_pool  
 from modules.user_manager import UserManager
 import csv
 import json
@@ -36,7 +36,7 @@ DB_NAME = "database/ream_management.db"
 class ReportManager:
     def __init__(self, db_name: str = DB_NAME):
         self.db_name = db_name
-        self.db_pool = ConnectionPool(db_name, max_connections=5)
+        # Uses global db_pool from db_setup.py
         self.user_manager = UserManager(db_name)
         self.edit_lock = threading.Lock()
         self.valid_terms = {'Term 1', 'Term 2', 'Term 3'}

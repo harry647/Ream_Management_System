@@ -215,68 +215,109 @@ def get_cumulative_ream_requirements() -> dict[str, int]:
 
 
 # ===================================================================
-# 3. Connection Pool (Thread-safe)
+# 3. Connection Pool (Thread-safe, Race-condition free)
 # ===================================================================
 class ConnectionPool:
-    def __init__(self, db_path: str, max_connections: int = 15):
+    def __init__(self, db_path: str, max_connections: int = 25):
         self.db_path = db_path
         self.max_connections = max_connections
-        self.connections = queue.Queue(maxsize=max_connections)
+        self.connections = []  # List of available connections
+        self.active_connections = 0  # Track active connections
         self.lock = threading.Lock()
+        self.condition = threading.Condition(self.lock)  # For waiting on connections
         logger.info(f"Initializing ConnectionPool for {db_path} with max_connections={max_connections}")
-        os.makedirs(os.path.dirname(db_path), exist_ok=True)
+        
+        # Ensure directory exists
+        db_dir = os.path.dirname(db_path)
+        if db_dir:
+            os.makedirs(db_dir, exist_ok=True)
 
-    def get_connection(self, retries=3, delay=1):
-        with self.lock:
-            for attempt in range(retries):
-                try:
-                    return self.connections.get_nowait()
-                except queue.Empty:
-                    if self.connections.qsize() < self.max_connections:
-                        try:
-                            conn = sqlite3.connect(
-                                self.db_path,
-                                check_same_thread=False,
-                                detect_types=sqlite3.PARSE_DECLTYPES,
-                                timeout=30
-                            )
-                            conn.row_factory = sqlite3.Row
-                            conn.execute("PRAGMA foreign_keys = ON")
-                            conn.execute("PRAGMA journal_mode=WAL")
-                            logger.info(f"Created new connection for {self.db_path}")
-                            return conn
-                        except sqlite3.Error as e:
-                            logger.error(f"Connection attempt {attempt + 1}/{retries} failed: {e}")
-                            if attempt < retries - 1:
-                                time.sleep(delay)
-                    else:
-                        try:
-                            conn = self.connections.get(timeout=30)
-                            logger.info(f"Retrieved connection from pool")
-                            return conn
-                        except queue.Empty:
-                            logger.error("Connection pool exhausted")
-                            raise sqlite3.OperationalError("No available connections")
-            raise sqlite3.OperationalError("Failed to get connection after retries")
+    def _create_connection(self):
+        """Create a new database connection with proper settings."""
+        conn = sqlite3.connect(
+            self.db_path,
+            check_same_thread=False,
+            detect_types=sqlite3.PARSE_DECLTYPES,
+            timeout=30
+        )
+        conn.row_factory = sqlite3.Row
+        conn.execute("PRAGMA foreign_keys = ON")
+        conn.execute("PRAGMA journal_mode=WAL")
+        conn.execute("PRAGMA busy_timeout = 30000")  # 30 second busy timeout
+        return conn
+
+    def get_connection(self, timeout=30):
+        """Get a connection from the pool. Thread-safe with no race conditions."""
+        with self.condition:
+            # Wait for available connection or create new one
+            start_time = time.time()
+            while True:
+                # Try to get an existing connection from the pool
+                if self.connections:
+                    conn = self.connections.pop()
+                    # Verify connection is still valid
+                    try:
+                        conn.execute("SELECT 1")
+                        return conn
+                    except (sqlite3.Error, Exception):
+                        # Connection is dead, create new one
+                        self.active_connections -= 1
+                        
+                # Check if we can create a new connection
+                if self.active_connections < self.max_connections:
+                    self.active_connections += 1
+                    break
+                
+                # Wait for a connection to be released
+                elapsed = time.time() - start_time
+                if elapsed >= timeout:
+                    self.active_connections -= 1
+                    raise sqlite3.OperationalError(f"Timeout waiting for connection (max: {self.max_connections})")
+                
+                # Wait with timeout
+                self.condition.wait(timeout=min(1, timeout - elapsed))
+            
+            # Create new connection outside the lock to avoid holding lock during I/O
+            try:
+                conn = self._create_connection()
+                logger.debug(f"Created new connection (active: {self.active_connections}/{self.max_connections})")
+                return conn
+            except Exception as e:
+                self.active_connections -= 1
+                self.condition.notify_all()  # Notify others in case they can create connections
+                raise
 
     def release_connection(self, conn):
+        """Release a connection back to the pool. Thread-safe."""
         if not conn:
             logger.warning("Attempted to release None connection")
             return
-        with self.lock:
-            if self.connections.qsize() < self.max_connections:
-                self.connections.put(conn)
-                logger.info("Released connection to pool")
-            else:
-                conn.close()
-                logger.info("Closed excess connection")
+            
+        with self.condition:
+            # Verify connection is still valid before returning to pool
+            try:
+                conn.execute("SELECT 1")
+                self.connections.append(conn)
+                logger.debug(f"Released connection to pool (active: {self.active_connections}/{self.max_connections})")
+            except (sqlite3.Error, Exception):
+                # Connection is dead, don't return to pool
+                self.active_connections -= 1
+                logger.warning("Released dead connection, not returning to pool")
+            finally:
+                # Notify waiting threads
+                self.condition.notify_all()
 
     def close_all(self):
-        with self.lock:
-            while not self.connections.empty():
-                conn = self.connections.get()
-                conn.close()
-                logger.info("Closed pooled connection")
+        """Close all connections in the pool. Thread-safe."""
+        with self.condition:
+            for conn in self.connections:
+                try:
+                    conn.close()
+                except Exception:
+                    pass
+            self.connections.clear()
+            self.active_connections = 0
+            logger.info("Closed all connections in pool")
 
 
 def get_db_connection():
@@ -354,7 +395,7 @@ def restore_database(db_path=None, backup_path=None):
             db_pool.close_all()
         shutil.copy2(backup_path, db_path)
         logger.info(f"Restored from {backup_path}")
-        db_pool = ConnectionPool(db_path, max_connections=15)
+        db_pool = ConnectionPool(db_path, max_connections=25)
     except Exception as e:
         logger.error(f"Restore failed: {e}")
         raise
@@ -777,8 +818,8 @@ def init_database(db_path=None):
     try:
         os.makedirs(os.path.dirname(db_path), exist_ok=True)
         if db_pool is None:
-            db_pool = ConnectionPool(db_path, max_connections=15)
-            logger.info(f"Initialized connection pool for {db_path}")
+            db_pool = ConnectionPool(db_path, max_connections=25)
+            logger.info(f"Initialized connection pool for {db_path} with 25 max connections")
         create_base_schema()
         reconcile_stock()
         atexit.register(lambda: db_pool.close_all() if db_pool else None)

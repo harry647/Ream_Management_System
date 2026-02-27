@@ -2,67 +2,25 @@
 import sqlite3
 import logging
 import threading
-import queue
 import os
 from datetime import datetime
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('logs/database.log'),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger(__name__)
+# Import connection pool from db_setup (single source of truth)
+from modules.db_setup import get_db_connection, release_db_connection, db_pool
 
-# Ensure logs directory exists
-if not os.path.exists('logs'):
-    os.makedirs('logs')
-
-# Connection pooling implementation
-class ConnectionPool:
-    def __init__(self, db_path, max_connections=5):
-        self.db_path = db_path
-        self.max_connections = max_connections
-        self.connections = queue.Queue(maxsize=max_connections)
-        self.lock = threading.Lock()
-
-    def get_connection(self):
-        with self.lock:
-            try:
-                return self.connections.get_nowait()
-            except queue.Empty:
-                if self.connections.qsize() < self.max_connections:
-                    conn = sqlite3.connect(
-                        self.db_path,
-                        check_same_thread=False,
-                        detect_types=sqlite3.PARSE_DECLTYPES,
-                        timeout=30
-                    )
-                    conn.row_factory = sqlite3.Row
-                    conn.execute("PRAGMA foreign_keys = ON")
-                    conn.execute("PRAGMA journal_mode=WAL")
-                    return conn
-                else:
-                    return self.connections.get(timeout=30)
-
-    def release_connection(self, conn):
-        with self.lock:
-            if self.connections.qsize() < self.max_connections:
-                self.connections.put(conn)
-            else:
-                conn.close()
-
-def get_db_connection():
-    local = threading.local()
-    if not hasattr(local, 'conn'):
-        local.conn = db_pool.get_connection()
-    return local.conn
-
-def release_db_connection(conn):
-    db_pool.release_connection(conn)
+# Configure logging (use existing from db_setup if possible)
+try:
+    logger = logging.getLogger(__name__)
+except:
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler('logs/database.log'),
+            logging.StreamHandler()
+        ]
+    )
+    logger = logging.getLogger(__name__)
 
 def get_term_from_date(date_str):
     """Determine term based on date (Jan-Apr: Term 1, May-Aug: Term 2, Sep-Dec: Term 3)."""
@@ -1406,8 +1364,7 @@ imported_data = [
 
 ]
 
-# Initialize connection pool
-db_pool = ConnectionPool("database/ream_management.db", max_connections=5)
+# Uses global db_pool from db_setup.py
 
 if __name__ == "__main__":
     import_reams_brought_data(imported_data)

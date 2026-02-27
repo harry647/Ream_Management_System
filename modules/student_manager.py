@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 import re
 from typing import List, Optional, Dict 
-from modules.db_setup import ConnectionPool, validate_json, get_term_from_date, get_cumulative_ream_requirements
+from modules.db_setup import get_db_connection, release_db_connection, validate_json, get_term_from_date, get_cumulative_ream_requirements, db_pool
 from modules.user_manager import UserManager
 import threading
 import json
@@ -25,8 +25,7 @@ logger = logging.getLogger(__name__)
 
 DB_NAME = "database/ream_management.db"
 
-# Initialize connection pool
-db_pool = ConnectionPool(DB_NAME, max_connections=15)
+# Uses global db_pool from db_setup.py
 
 class StudentManager:
     def __init__(self, db_name: str = DB_NAME):
