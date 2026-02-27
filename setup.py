@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 # Configuration
 PYTHON_VERSION = "3.11.9"
 PYTHON_EMBED_ZIP = "python-embed.zip"
-INNO_SETUP_COMPILER = r"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" 
+INNO_SETUP_COMPILER = os.environ.get("INNO_SETUP_COMPILER", r"C:\Program Files (x86)\Inno Setup 6\ISCC.exe")
 PROJECT_ROOT = Path(__file__).parent
 DIST_DIR = PROJECT_ROOT / "dist"
 PACKAGES_DIR = PROJECT_ROOT / "packages"
@@ -215,6 +215,7 @@ def run_pyinstaller():
         f"--add-data=icons;icons",
         f"--add-data=logs;logs",
         f"--add-data=modules;modules",
+        f"--add-data=reports;reports",
         f"--add-data=requirements.txt;.",
         f"--icon={ICON_ICO}",
         "--name", "ReamManagement",

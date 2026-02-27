@@ -8,7 +8,7 @@ import customtkinter as ctk
 from tkinter import messagebox
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Image, Spacer, PageBreak
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Image as RLImage, Spacer, PageBreak
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.lib.colors import HexColor
@@ -17,7 +17,7 @@ from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Border, Side, Alignment
 from jsonschema import validate, ValidationError
 from pdf2image import convert_from_path
-from PIL import Image, ImageTk
+from PIL import Image as PILImage, ImageTk
 import logging
 from typing import List, Dict, Optional
 from datetime import datetime
@@ -125,7 +125,7 @@ class ReportExporter:
         header_config = self.config["pdf_formatting"]["report_headers"].get(report_type, {"logo_position": "center", "text_alignment": "center", "logo_width": 2, "logo_height": 2})
         logo_path = self.config["school"]["report_logos"].get(report_type, self.config["school"]["logo_path"])
         if os.path.exists(logo_path):
-            logo = Image(logo_path, width=header_config["logo_width"]*inch, height=header_config["logo_height"]*inch)
+            logo = RLImage(logo_path, width=header_config["logo_width"]*inch, height=header_config["logo_height"]*inch)
             logo.hAlign = header_config["logo_position"].upper()
             elements.append(logo)
         else:
@@ -256,9 +256,9 @@ class ReportExporter:
             logo_path = self.config["school"]["report_logos"].get(report_type,
                                                                  self.config["school"]["logo_path"])
             if os.path.exists(logo_path):
-                logo = Image(logo_path,
-                             width=header_cfg.get("logo_width", 1) * inch,
-                             height=header_cfg.get("logo_height", 1) * inch)
+                logo = RLImage(logo_path,
+                               width=header_cfg.get("logo_width", 1) * inch,
+                               height=header_cfg.get("logo_height", 1) * inch)
                 logo.hAlign = header_cfg.get("logo_position", "left").upper()
                 elements.append(logo)
             else:
@@ -585,7 +585,7 @@ class PDFPreviewWindow(ctk.CTkToplevel):
         img_width, img_height = img.size
         scale = min(canvas_width / img_width, canvas_height / img_height) * 0.9
         new_width, new_height = int(img_width * scale), int(img_height * scale)
-        img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
+        img = img.resize((new_width, new_height), PILImage.Resampling.LANCZOS)
         self.photo = ImageTk.PhotoImage(img)
         self.canvas.delete("all")
         self.canvas.create_image(canvas_width / 2, canvas_height / 2, image=self.photo, anchor="center")

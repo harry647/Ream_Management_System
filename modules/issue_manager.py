@@ -12,7 +12,6 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
-from datetime import datetime
 import re
 import threading
 
@@ -39,7 +38,7 @@ class IssueManager:
         self.user_manager = UserManager(db_name)
         self.ream_manager = ReamManager(db_name)
         self.edit_lock = threading.Lock()
-        self.valid_departments = {'Mathematics', 'Sciences', 'Languages', 'Humanities', 'Technical', 'Library', 'Administration', 'Exams'}
+        self.valid_departments = {'Mathematics', 'Sciences', 'Languages', 'Humanities', 'Technical', 'Library', 'Administration', 'Exams', 'Store'}
 
     def _get_connection(self) -> sqlite3.Connection:
         """Get a connection from the pool."""
@@ -115,55 +114,52 @@ class IssueManager:
             is_independent_transaction = False
         else:
             is_independent_transaction = True
-            # Acquire lock and connection for independent transactions only
-            with self.edit_lock: 
-                conn = self._get_connection()
-                cursor = conn.cursor()
-        
-            try:
-                valid_operations = {'INSERT', 'UPDATE', 'DELETE', 'LOGIN', 'DISPLAY', 'REPORT', 'EXPORT'}
-                fetch_actions = {'get_all_issues', 'fetch_issue_records', 'get_issue_by_id', 'search_issues', 'get_department_summary', 'get_issues_by_term'}
-                insert_actions = {'issue_reams'}
-                delete_actions = {'delete_issue'}
-                export_actions = {'export_issues_report', 'backup_issue_database'}
+            conn = self._get_connection()
+            cursor = conn.cursor()
 
-                if action in fetch_actions:
-                    operation = 'DISPLAY'
-                elif action in insert_actions:
-                    operation = 'INSERT'
-                elif action in delete_actions:
-                    operation = 'DELETE'
-                elif action in export_actions:
-                    operation = 'EXPORT'
-                else:
-                    operation = action.upper()
-                    if operation not in valid_operations:
-                        raise ValueError(f"Invalid audit operation: {operation}")
+        try:
+            valid_operations = {'INSERT', 'UPDATE', 'DELETE', 'LOGIN', 'DISPLAY', 'REPORT', 'EXPORT'}
+            fetch_actions = {'get_all_issues', 'fetch_issue_records', 'get_issue_by_id', 'search_issues', 'get_department_summary', 'get_issues_by_term'}
+            insert_actions = {'issue_reams'}
+            delete_actions = {'delete_issue'}
+            export_actions = {'export_issues_report', 'backup_issue_database'}
 
-                cursor.execute(
-                    "INSERT INTO audit_log (action, success, table_name, operation, record_id, user, details) "
-                    "VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    (action, '1' if success else '0', table_name, operation, record_id, user, details)
-                )
-                
-                # Only commit if it's an independent transaction
-                if is_independent_transaction:
-                    conn.commit()
-                    logger.info(f"Audit logged: {operation} ({action}) by {user}")
-                else:
-                    # Audit log inserted, but the main function (issue_reams) will handle the commit
-                    logger.info(f"Audit prepared: {operation} ({action}) by {user}")
+            if action in fetch_actions:
+                operation = 'DISPLAY'
+            elif action in insert_actions:
+                operation = 'INSERT'
+            elif action in delete_actions:
+                operation = 'DELETE'
+            elif action in export_actions:
+                operation = 'EXPORT'
+            else:
+                operation = action.upper()
+                if operation not in valid_operations:
+                    raise ValueError(f"Invalid audit operation: {operation}")
 
-            except Exception as e:
-                if is_independent_transaction:
-                    conn.rollback()
-                logger.error(f"Failed to log audit: {e}")
-                # Note: If a dependency fails, it raises the error, and the main function's rollback handles it
-                raise
-            finally:
-                # Only release connection if it was created in this function
-                if is_independent_transaction:
-                    self._release_connection(conn)
+            cursor.execute(
+                "INSERT INTO audit_log (action, success, table_name, operation, record_id, user, details) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (action, '1' if success else '0', table_name, operation, record_id, user, details)
+            )
+
+            # Only commit if it's an independent transaction
+            if is_independent_transaction:
+                conn.commit()
+                logger.info(f"Audit logged: {operation} ({action}) by {user}")
+            else:
+                # Audit log inserted, but the main function (issue_reams) will handle the commit
+                logger.info(f"Audit prepared: {operation} ({action}) by {user}")
+
+        except Exception as e:
+            if is_independent_transaction:
+                conn.rollback()
+            logger.error(f"Failed to log audit: {e}")
+            raise
+        finally:
+            # Only release connection if it was created in this function
+            if is_independent_transaction:
+                self._release_connection(conn)
 
     def _validate_stock_before_issue(self, quantity: int, user: str, role: str) -> bool:
         """Validate if enough stock is available and check for low stock."""

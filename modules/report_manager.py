@@ -42,7 +42,7 @@ class ReportManager:
         self.valid_terms = {'Term 1', 'Term 2', 'Term 3'}
         self.valid_forms = {'Form 1', 'Form 2', 'Form 3', 'Form 4', 'Grade 10', 'Grade 11', 'Grade 12'}
         self.valid_departments = {'Mathematics', 'Sciences', 'Languages', 'Humanities',
-                                 'Technical', 'Library', 'Administration', 'Exams'}
+                                 'Technical', 'Library', 'Administration', 'Exams', 'Store'}
 
         # Cache cumulative ream requirements once per instance
         self.cum_req = get_cumulative_ream_requirements()

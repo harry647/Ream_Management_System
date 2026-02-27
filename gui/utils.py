@@ -3,12 +3,9 @@ import re
 import os
 import sys 
 from datetime import datetime
-from typing import Optional, Callable, List, Dict, Set
+from typing import Optional, Callable, Set
 from modules.user_manager import UserManager
-from modules.db_setup import ConnectionPool
 import logging
-import sqlite3
-import threading
 
 # Configure logging with UTF-8 encoding
 os.makedirs("logs", exist_ok=True)
@@ -22,29 +19,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-def _get_connection(self) -> sqlite3.Connection:
-        """Get a connection from the pool."""
-        return db_pool.get_connection()
-
-def _release_connection(self, conn: sqlite3.Connection) -> None:
-    """Release a connection back to the pool."""
-    db_pool.release_connection(conn)
-
-
-def get_streams(self) -> List[str]:
-        """Fetch unique streams from the students table."""
-        try:
-            conn = sqlite3.connect(self.db_name, check_same_thread=False)
-            conn.row_factory = sqlite3.Row
-            cursor = conn.cursor()
-            cursor.execute("SELECT DISTINCT stream FROM students WHERE stream IS NOT NULL ORDER BY stream")
-            streams = [row['stream'] for row in cursor.fetchall()]
-            conn.close()
-            logger.debug(f"Fetched {len(streams)} unique streams")
-            return streams
-        except Exception as e:
-            logger.error(f"Error fetching streams: {e}")
-            return []
 
 def show_error(parent: Misc, message: str, log_callback: Optional[Callable[[str], None]] = None) -> None:
     """Show an error dialog and optionally log the message.
@@ -118,24 +92,6 @@ def validate_form(form: str, valid_forms: Set[str] = {'Form 1', 'Form 2', 'Form 
     logger.warning(f"Invalid form: {form}")
     return False
 
-def validate_stream(self, stream: str, log_callback: Optional[Callable[[str], None]] = None) -> bool:
-    """Validate stream exists in database if provided."""
-    if not stream or stream == "None":
-        return True
-    try:
-        streams = self.get_streams()
-        if stream not in streams:
-            error_msg = f"Invalid stream: {stream}. Must be one of: {', '.join(streams)}"
-            if log_callback:
-                log_callback(f"Validation failed: {error_msg}")
-            logger.warning(error_msg)
-            return False
-        return True
-    except Exception as e:
-        if log_callback:
-            log_callback(f"Validation failed: Error fetching streams: {e}")
-        logger.error(f"Stream validation error: {e}")
-        return False
 
 def validate_term(term: str, valid_terms: Set[str] = {'Term 1', 'Term 2', 'Term 3'},
                  log_callback: Optional[Callable[[str], None]] = None) -> bool:
@@ -156,7 +112,7 @@ def validate_term(term: str, valid_terms: Set[str] = {'Term 1', 'Term 2', 'Term 
     logger.warning(f"Invalid term: {term}")
     return False
 
-def validate_department(department: str, valid_departments: Set[str] = {'Exams', 'Admin', 'Library', 'Science', 'Mathematics', 'Languages'},
+def validate_department(department: str, valid_departments: Set[str] = {'Mathematics', 'Sciences', 'Languages', 'Humanities', 'Technical', 'Library', 'Administration', 'Exams', 'Store'},
                        log_callback: Optional[Callable[[str], None]] = None) -> bool:
     """Validate department.
 

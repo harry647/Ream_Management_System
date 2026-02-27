@@ -8,13 +8,11 @@ from gui.utils import show_error, show_info
 from reports.report_export import ReportExporter
 import os
 import subprocess
-import win32print
-import win32ui
-from win32printing import Printer
+import sys
 from io import BytesIO
 import tempfile
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import SimpleDocTemplate, Image, Spacer, Paragraph, PageBreak
+from reportlab.platypus import SimpleDocTemplate, Image as RLImage, Spacer, Paragraph, PageBreak
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.colors import HexColor
 from reportlab.lib.units import inch
@@ -29,6 +27,18 @@ import threading
 from PIL import Image
 from datetime import datetime
 from tkcalendar import Calendar
+
+# Platform-specific printing imports (Windows only)
+if sys.platform == 'win32':
+    try:
+        import win32print
+        import win32ui
+        from win32printing import Printer
+        HAS_WIN32_PRINTING = True
+    except ImportError:
+        HAS_WIN32_PRINTING = False
+else:
+    HAS_WIN32_PRINTING = False
 
 # Configure logging
 os.makedirs("logs", exist_ok=True)
@@ -237,26 +247,25 @@ class ReportWindow(ctk.CTkToplevel):
     def _select_printer(self):
         """Show printer selection dialog."""
         try:
-            # ----- Windows -----
-            printers = [p[2] for p in win32print.EnumPrinters(2)]
-            if not printers:
-                show_error(self, "No printers found")
+            if HAS_WIN32_PRINTING:
+                # ----- Windows -----
+                printers = [p[2] for p in win32print.EnumPrinters(2)]
+                if not printers:
+                    show_error(self, "No printers found")
+                    return None
+
+                printer = simpledialog.askstring(
+                    "Select Printer",
+                    "Available printers:\n" + "\n".join(printers) + "\n\nEnter printer name:",
+                    parent=self
+                )
+                if printer and printer in printers:
+                    return printer
+                elif printer:
+                    show_error(self, f"Printer '{printer}' not found")
                 return None
-
-            printer = simpledialog.askstring(
-                "Select Printer",
-                "Available printers:\n" + "\n".join(printers) + "\n\nEnter printer name:",
-                parent=self
-            )
-            if printer and printer in printers:
-                return printer
-            elif printer:
-                show_error(self, f"Printer '{printer}' not found")
-            return None
-
-        except ImportError:
-            # ----- macOS / Linux -----
-            try:
+            else:
+                # ----- macOS / Linux -----
                 result = subprocess.run(["lpstat", "-p"], capture_output=True, text=True, check=True)
                 printers = []
                 for line in result.stdout.splitlines():
@@ -275,17 +284,17 @@ class ReportWindow(ctk.CTkToplevel):
                 )
                 return printer if printer in printers else None
 
-            except Exception as e:
-                logger.error(f"Printer detection failed: {e}")
-                show_error(self, "Printer selection not available on this platform")
-                return None
+        except Exception as e:
+            logger.error(f"Printer detection failed: {e}")
+            show_error(self, "Printer selection not available on this platform")
+            return None
 
     def _send_to_printer(self, pdf_buffer: BytesIO, printer_name: str):
         """Send PDF buffer to printer using OS-native method."""
         temp_pdf_path = None
         try:
             # --- Windows: Use ShellExecute ---
-            if os.name == 'nt':
+            if sys.platform == 'win32' and HAS_WIN32_PRINTING:
                 import tempfile
                 import win32api
 
@@ -759,7 +768,7 @@ class ChartWindow(ctk.CTkToplevel):
 
             logo_path = self.exporter.config["school"]["report_logos"].get("chart", self.exporter.config["school"]["logo_path"])
             if os.path.exists(logo_path):
-                logo = Image(logo_path, width=2*inch, height=2*inch)
+                logo = RLImage(logo_path, width=2*inch, height=2*inch)
                 logo.hAlign = header_config["logo_position"].upper()
                 elements.append(logo)
             else:
@@ -777,7 +786,7 @@ class ChartWindow(ctk.CTkToplevel):
             elements.append(PageBreak())
 
             if os.path.exists(image_path):
-                chart_image = Image(image_path, width=6*inch, height=4*inch)
+                chart_image = RLImage(image_path, width=6*inch, height=4*inch)
                 chart_image.hAlign = 'CENTER'
                 elements.append(chart_image)
             else:

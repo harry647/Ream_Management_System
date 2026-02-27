@@ -14,8 +14,8 @@ services:
       - ./database:/app/database
       - ./logs:/app/logs
       - ./.env:/app/.env:ro
-    ports:
-      - "8000:8000"  # Only if you expose a web server
+    # ports:
+      # - "8000:8000"  # GUI app - not a web server
     healthcheck:
       test: ["CMD", "python", "-c", "import os; os._exit(0)"]
       interval: 30s

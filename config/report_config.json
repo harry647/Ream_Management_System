@@ -92,6 +92,12 @@
         "text_alignment": "center",
         "logo_width": 1,
         "logo_height": 1
+      },
+      "stream_ream": {
+        "logo_position": "left",
+        "text_alignment": "left",
+        "logo_width": 1,
+        "logo_height": 1
       }
     }
   },
