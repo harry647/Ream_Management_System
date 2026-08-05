@@ -1,12 +1,11 @@
 # setup.py
 import os
+import sys
 import subprocess
 import shutil
 from pathlib import Path
 from PIL import Image
 import logging
-import venv
-import site
 import sqlite3
 from datetime import datetime
 import bcrypt
@@ -23,13 +22,18 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+try:
+    LANCZOS = Image.LANCZOS
+except AttributeError:
+    LANCZOS = Image.Resampling.LANCZOS
+
 # Configuration
 PYTHON_VERSION = "3.8.10"
-PYTHON_EMBED_ZIP = f"python-{PYTHON_VERSION}-embed-amd64.zip"
 INNO_SETUP_COMPILER = os.environ.get("INNO_SETUP_COMPILER", "iscc")  # Use 'iscc' on PATH or set INNO_SETUP_COMPILER environment variable
 PROJECT_ROOT = Path(__file__).parent
 DIST_DIR = PROJECT_ROOT / "dist"
 PACKAGES_DIR = PROJECT_ROOT / "packages"
+VCREDIST_DIR = PROJECT_ROOT / "vcredist"
 ICON_PNG = PROJECT_ROOT / "icons" / "login.png"
 ICON_ICO = PROJECT_ROOT / "icons" / "login.ico"
 ISS_FILE = PROJECT_ROOT / "setup.iss"
@@ -65,7 +69,7 @@ def generate_installer_images():
         logger.info(f"Generating {BANNER_IMAGE}")
         try:
             img = Image.open(ICON_PNG)
-            img = img.resize((164, 314), Image.LANCZOS)
+            img = img.resize((164, 314), LANCZOS)
             img.save(BANNER_IMAGE, format="BMP")
             logger.info("Installer banner generated")
         except Exception as e:
@@ -76,7 +80,7 @@ def generate_installer_images():
         logger.info(f"Generating {SMALL_IMAGE}")
         try:
             img = Image.open(ICON_PNG)
-            img = img.resize((55, 55), Image.LANCZOS)
+            img = img.resize((55, 55), LANCZOS)
             img.save(SMALL_IMAGE, format="BMP")
             logger.info("Installer small icon generated")
         except Exception as e:
@@ -119,64 +123,46 @@ def generate_readme_file():
             raise
 
 def prepare_offline_packages():
-    """Create a virtual environment, install dependencies, and copy to packages directory."""
-    if PACKAGES_DIR.exists():
-        shutil.rmtree(PACKAGES_DIR)
-        logger.info(f"Cleared existing {PACKAGES_DIR}")
-    PACKAGES_DIR.mkdir(exist_ok=True)
+    """Install dependencies in the current environment and prepare VC++ redistributable."""
+    VCREDIST_DIR.mkdir(exist_ok=True)
+    logger.info(f"Ensured VC++ redistributable directory exists: {VCREDIST_DIR}")
 
-    # Create a temporary virtual environment
-    temp_venv = PROJECT_ROOT / "temp_venv"
-    logger.info(f"Creating temporary virtual environment at {temp_venv}")
-    try:
-        venv.create(temp_venv, with_pip=True)
-        logger.info("Temporary virtual environment created")
-    except Exception as e:
-        logger.error(f"Failed to create virtual environment: {e}")
-        raise
-
-    # Install dependencies in the virtual environment
-    venv_python = temp_venv / "Scripts" / "python.exe" if os.name == 'nt' else temp_venv / "bin" / "python"
-    venv_pip = [str(venv_python), "-m", "pip", "install", "--upgrade", "pip"]
-    try:
-        subprocess.run(venv_pip, check=True)
-        logger.info("Upgraded pip in virtual environment")
-    except subprocess.CalledProcessError as e:
-        logger.error(f"Failed to upgrade pip: {e}")
-        raise
-
-    # Install requirements
+    # Install requirements in the current environment (needed for PyInstaller bundling)
     requirements = PROJECT_ROOT / "requirements.txt"
     if not requirements.exists():
         logger.error(f"{requirements} not found")
         raise FileNotFoundError(f"{requirements} not found")
-    
-    venv_install = [str(venv_python), "-m", "pip", "install", "-r", str(requirements)]
+
+    pip_install = [sys.executable, "-m", "pip", "install", "-r", str(requirements)]
     try:
-        subprocess.run(venv_install, check=True)
-        logger.info("Installed dependencies in virtual environment")
+        subprocess.run(pip_install, check=True)
+        logger.info("Installed dependencies from requirements.txt")
     except subprocess.CalledProcessError as e:
         logger.error(f"Failed to install dependencies: {e}")
         raise
 
-    # Copy site-packages to packages directory
-    venv_site_packages = temp_venv / "Lib" / "site-packages" if os.name == 'nt' else Path(site.getsitepackages()[0])
-    try:
-        shutil.copytree(venv_site_packages, PACKAGES_DIR, dirs_exist_ok=True)
-        logger.info(f"Copied site-packages to {PACKAGES_DIR}")
-    except Exception as e:
-        logger.error(f"Failed to copy site-packages: {e}")
-        raise
-    finally:
-        shutil.rmtree(temp_venv, ignore_errors=True)
-        logger.info(f"Removed temporary virtual environment {temp_venv}")
+    # Download VC++ Redistributable if not already present
+    vcredist_path = VCREDIST_DIR / "vcredist_x64.exe"
+    if not vcredist_path.exists():
+        logger.info("Downloading Visual C++ Redistributable...")
+        try:
+            subprocess.run(
+                ["powershell", "-Command",
+                 f"Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vc_redist.x64.exe' "
+                 f"-OutFile '{vcredist_path}' -UseBasicParsing"],
+                check=True
+            )
+            logger.info(f"Downloaded VC++ Redistributable to {vcredist_path}")
+        except subprocess.CalledProcessError as e:
+            logger.warning(f"Failed to download VC++ Redistributable: {e}. "
+                           "post_install.bat will attempt download at install time.")
 
 def generate_post_install_bat():
-    """Generate post_install.bat for setting up Python environment."""
+    """Generate post_install.bat for setting up runtime environment."""
     content = f"""@echo off
 setlocal enabledelayedexpansion
 
-echo Setting up Python environment...
+echo Setting up runtime environment...
 
 cd "%~dp0"
 
@@ -185,24 +171,22 @@ cd "%~dp0"
 :: ============================================================
 echo Checking for Visual C++ Redistributable...
 
-:: Check if VC++ Redistributable is already installed (check registry)
 reg query "HKLM\\SOFTWARE\\Microsoft\\VisualStudio\\14.0\\VC\\Runtimes\\x64" /v Version >nul 2>&1
 if %errorlevel% neq 0 (
     reg query "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\VisualStudio\\14.0\\VC\\Runtimes\\x64" /v Version >nul 2>&1
     if %errorlevel% neq 0 (
         echo Visual C++ Redistributable not found.
 
-        :: Try to download and install VC++ Redistributable
-        if exist "packages\\vcredist_x64.exe" (
+        if exist "vcredist\\vcredist_x64.exe" (
             echo Installing VC++ Redistributable from local package...
-            packages\\vcredist_x64.exe /install /quiet /norestart
+            vcredist\\vcredist_x64.exe /install /quiet /norestart
             timeout /t 10 /nobreak >nul
         ) else (
             echo Downloading Visual C++ Redistributable...
-            powershell -Command "Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vc_redist.x64.exe' -OutFile 'packages\\vcredist_x64.exe' -UseBasicParsing"
-            if exist "packages\\vcredist_x64.exe" (
+            powershell -Command "Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vc_redist.x64.exe' -OutFile 'vcredist\\vcredist_x64.exe' -UseBasicParsing"
+            if exist "vcredist\\vcredist_x64.exe" (
                 echo Installing VC++ Redistributable...
-                packages\\vcredist_x64.exe /install /quiet /norestart
+                vcredist\\vcredist_x64.exe /install /quiet /norestart
                 timeout /t 10 /nobreak >nul
             ) else (
                 echo WARNING: Failed to download VC++ Redistributable.
@@ -218,23 +202,36 @@ if %errorlevel% neq 0 (
 )
 
 :: ============================================================
-:: Extract Python embeddable
+:: Detect Python {PYTHON_VERSION}
 :: ============================================================
-echo Extracting Python environment...
-if exist "python-embed.zip" (
-    powershell -Command "Expand-Archive -Path 'python-embed.zip' -DestinationPath 'python' -Force"
-) else if exist "python-{PYTHON_VERSION.replace('.', '')}-embed-amd64.zip" (
-    powershell -Command "Expand-Archive -Path 'python-{PYTHON_VERSION.replace('.', '')}-embed-amd64.zip' -DestinationPath 'python' -Force"
-) else (
-    echo ERROR: Python embeddable zip not found. Please download python-{PYTHON_VERSION}-embed-amd64.zip and place it in the project root.
-    exit /b 1
-)
+echo Checking for Python {PYTHON_VERSION}...
 
-:: Update python.ini to enable site-packages
-echo [Defaults] > python\\python{PYTHON_VERSION.replace('.', '')}._pth
-echo python{PYTHON_VERSION.replace('.', '')}.zip >> python\\python{PYTHON_VERSION.replace('.', '')}._pth
-echo . >> python\\python{PYTHON_VERSION.replace('.', '')}._pth
-echo import site >> python\\python{PYTHON_VERSION.replace('.', '')}._pth
+python --version 2>nul | findstr /C:"{PYTHON_VERSION}" >nul
+if %errorlevel% equ 0 (
+    echo Python {PYTHON_VERSION} detected.
+    echo Installing dependencies from requirements.txt...
+    python -m pip install -r requirements.txt
+    if %errorlevel% equ 0 (
+        echo Dependencies installed successfully.
+    ) else (
+        echo WARNING: Failed to install some dependencies.
+    )
+) else (
+    py -3.8 --version 2>nul | findstr /C:"{PYTHON_VERSION}" >nul
+    if %errorlevel% equ 0 (
+        echo Python {PYTHON_VERSION} detected via py launcher.
+        echo Installing dependencies from requirements.txt...
+        py -3.8 -m pip install -r requirements.txt
+        if %errorlevel% equ 0 (
+            echo Dependencies installed successfully.
+        ) else (
+            echo WARNING: Failed to install some dependencies.
+        )
+    ) else (
+        echo Python {PYTHON_VERSION} not found on this system.
+        echo The standalone executable (ReamManagement.exe) will be used instead.
+    )
+)
 
 echo.
 echo ============================================================
@@ -317,22 +314,17 @@ def main():
         # Step 3: Prepare offline packages
         prepare_offline_packages()
 
-        # Step 4: Verify Python embeddable exists
-        if not (PROJECT_ROOT / PYTHON_EMBED_ZIP).exists():
-            logger.error(f"{PYTHON_EMBED_ZIP} not found in project root. Please download python-{PYTHON_VERSION}-embed-amd64.zip and place it in the project root.")
-            raise FileNotFoundError(f"{PYTHON_EMBED_ZIP} not found")
-
-        # Step 5: Initialize database
+        # Step 4: Initialize database
         if not DB_PATH.parent.exists():
             DB_PATH.parent.mkdir(exist_ok=True)
 
-        # Step 6: Generate post_install.bat
+        # Step 5: Generate post_install.bat
         generate_post_install_bat()
 
-        # Step 7: Run PyInstaller
+        # Step 6: Run PyInstaller
         run_pyinstaller()
 
-        # Step 8: Run Inno Setup
+        # Step 7: Run Inno Setup
         run_inno_setup()
 
         logger.info("Build process completed successfully")

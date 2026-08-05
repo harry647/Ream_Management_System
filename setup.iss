@@ -34,8 +34,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "startmenuicon"; Description: "Create a Start Menu shortcut"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Files]
-; Optional: Include VC++ Redistributable in packages folder for offline installation
-Source: "packages\vcredist_x64.exe"; DestDir: "{app}\packages"; Flags: ignoreversion skipifsourcedoesntexist
+; Optional: Include VC++ Redistributable in vcredist folder for offline installation
+Source: "vcredist\vcredist_x64.exe"; DestDir: "{app}\vcredist"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "dist\ReamManagement.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".env"; DestDir: "{app}"; Flags: ignoreversion
 Source: "config\*"; DestDir: "{app}\config"; Flags: ignoreversion recursesubdirs
@@ -47,8 +47,6 @@ Source: "logs\*"; DestDir: "{app}\logs"; Flags: ignoreversion recursesubdirs
 Source: "modules\*"; DestDir: "{app}\modules"; Flags: ignoreversion recursesubdirs
 Source: "reports\*"; DestDir: "{app}\reports"; Flags: ignoreversion recursesubdirs
 Source: "requirements.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "python-embed.zip"; DestDir: "{app}"; Flags: ignoreversion
-Source: "packages\*"; DestDir: "{app}\python\Lib\site-packages"; Flags: ignoreversion recursesubdirs
 Source: "post_install.bat"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
@@ -57,12 +55,11 @@ Name: "{autodesktop}\Ream Management System"; Filename: "{app}\ReamManagement.ex
 Name: "{group}\{cm:UninstallProgram,Ream Management System}"; Filename: "{uninstallexe}"; IconFilename: "{app}\icons\login.ico"; Tasks: startmenuicon
 
 [Run]
-Filename: "{app}\post_install.bat"; Description: "Setting up Python environment"; StatusMsg: "Configuring Python and dependencies..."; Flags: runhidden waituntilterminated
+Filename: "{app}\post_install.bat"; Description: "Setting up runtime environment"; StatusMsg: "Checking VC++ redistributable and Python dependencies..."; Flags: runhidden waituntilterminated
 Filename: "{app}\ReamManagement.exe"; Description: "{cm:LaunchProgram,Ream Management System}"; StatusMsg: "Launching Ream Management System..."; Flags: nowait postinstall skipifsilent
 
 [Dirs]
 Name: "{app}\logs"; Permissions: everyone-modify
-Name: "{app}\python\Lib\site-packages"; Permissions: everyone-modify
 
 [Code]
 procedure CurPageChanged(CurPageID: Integer);
