@@ -6,7 +6,7 @@ from gui.utils import show_error, show_info, validate_not_empty, validate_userna
 from modules.db_setup import get_logs_dir
 import logging
 import os
-from typing import Optional, Callable, Any
+from typing import Dict, Optional, Callable, Any
 import threading
 
 # ----------------------------------------------------------------------
@@ -71,7 +71,7 @@ class CreateUserForm(ctk.CTkToplevel):
         form_frame = ctk.CTkFrame(self, corner_radius=10, fg_color="#2B2B2B")
         form_frame.pack(pady=10, padx=10, fill="both", expand=True)
 
-        self.entries: dict[str, c.CTkBaseClass] = {}
+        self.entries: Dict[str, ctk.CTkBaseClass] = {}
         fields = [
             ("Username", "username", ctk.CTkEntry, {}),
             ("Password", "password", ctk.CTkEntry, {"show": "*"}),

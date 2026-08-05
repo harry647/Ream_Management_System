@@ -32,10 +32,9 @@ from tkcalendar import Calendar
 # Platform-specific printing imports (Windows only)
 if sys.platform == 'win32':
     try:
-        import win32print
-        import win32ui
-        from win32printing import Printer
-        HAS_WIN32_PRINTING = True
+import win32print
+import win32ui
+HAS_WIN32_PRINTING = True
     except ImportError:
         HAS_WIN32_PRINTING = False
 else:

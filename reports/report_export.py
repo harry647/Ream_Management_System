@@ -16,8 +16,12 @@ from reportlab.pdfgen.canvas import Canvas
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Border, Side, Alignment
 from jsonschema import validate, ValidationError
-from pdf2image import convert_from_path
 from PIL import Image as PILImage, ImageTk
+try:
+    from pdf2image import convert_from_path
+    HAS_PDF2IMAGE = True
+except ImportError:
+    HAS_PDF2IMAGE = False
 import logging
 from typing import List, Dict, Optional
 from datetime import datetime
@@ -340,7 +344,7 @@ class ReportExporter:
                       onLaterPages=self.build_footer)
 
             # ---- preview / save ---------------------------------------------
-            if preview and parent:
+            if preview and parent and HAS_PDF2IMAGE:
                 PDFPreviewWindow(parent, file_path, report_type)
                 return None
             elif preview:
@@ -539,6 +543,12 @@ class PDFPreviewWindow(ctk.CTkToplevel):
         self.current_page = 0
 
         # Convert PDF to images
+        if not HAS_PDF2IMAGE:
+            messagebox.showwarning("Warning",
+                "PDF preview is not available. pdf2image (poppler) is required for preview.\n"
+                "The PDF has been saved to: " + pdf_path, parent=self)
+            self.destroy()
+            return
         try:
             self.pages = convert_from_path(pdf_path, dpi=150)
             self.total_pages = len(self.pages)
@@ -588,7 +598,7 @@ class PDFPreviewWindow(ctk.CTkToplevel):
         img_width, img_height = img.size
         scale = min(canvas_width / img_width, canvas_height / img_height) * 0.9
         new_width, new_height = int(img_width * scale), int(img_height * scale)
-        img = img.resize((new_width, new_height), PILImage.Resampling.LANCZOS)
+        img = img.resize((new_width, new_height), PILImage.LANCZOS)
         self.photo = ImageTk.PhotoImage(img)
         self.canvas.delete("all")
         self.canvas.create_image(canvas_width / 2, canvas_height / 2, image=self.photo, anchor="center")

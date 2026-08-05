@@ -22,7 +22,10 @@ os.makedirs(logs_dir, exist_ok=True)
 # Create handlers with UTF-8 encoding
 file_handler = logging.FileHandler(os.path.join(logs_dir, "main.log"), encoding='utf-8')
 stream_handler = logging.StreamHandler(sys.stdout)
-stream_handler.stream.reconfigure(encoding='utf-8')  # Ensure stdout uses UTF-8
+try:
+    stream_handler.stream.reconfigure(encoding='utf-8')
+except Exception:
+    pass
 
 logging.basicConfig(
     level=logging.INFO,

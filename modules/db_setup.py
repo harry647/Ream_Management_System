@@ -11,7 +11,7 @@ import time
 import json
 import re
 from datetime import datetime
-from typing import Optional
+from typing import Dict, Optional
 from dotenv import load_dotenv
 import bcrypt
 
@@ -310,7 +310,7 @@ def validate_json(json_str: str) -> bool:
         raise
 
 
-def get_cumulative_ream_requirements() -> dict[str, int]:
+def get_cumulative_ream_requirements() -> Dict[str, int]:
     conn = None
     try:
         conn = get_db_connection()
@@ -321,7 +321,7 @@ def get_cumulative_ream_requirements() -> dict[str, int]:
             raise RuntimeError("No settings row found.")
         raw_json = row["ream_required_per_form"]
         validate_json(raw_json)
-        per_form: dict[str, int] = json.loads(raw_json)
+        per_form: Dict[str, int] = json.loads(raw_json)
 
         junior_order = ["Form 1", "Form 2", "Form 3", "Form 4"]
         senior_order = ["Grade 10", "Grade 11", "Grade 12"]

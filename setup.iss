@@ -2,11 +2,13 @@
 [Setup]
 AppName=Ream Management System
 AppVersion=1.0.0
+AppId=ReamManagementSystem
 AppPublisher=HarLuFran InnoFlux Computing
 AppSupportURL=https://harlufraninnoflux.co.ke
 AppUpdatesURL=https://harlufraninnoflux.co.ke
 DefaultDirName={autopf}\ReamManagement
 DefaultGroupName=Ream Management
+MinVersion=0,6.1
 OutputDir=dist
 OutputBaseFilename=ReamManagementSetup
 Compression=lzma2

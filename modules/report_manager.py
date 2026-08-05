@@ -3,12 +3,16 @@ import logging
 import re
 import os
 from datetime import datetime
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Optional, Tuple, Any
 from modules.db_setup import get_db_connection, release_db_connection, get_cumulative_ream_requirements, get_db_pool, get_logs_dir, get_database_path  
 from modules.user_manager import UserManager
 import csv
 import json
-from pylatex import Document, Section, Subsection, Tabular, Package, NoEscape
+from reportlab.lib.pagesizes import A4
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import inch
 import threading
 import pandas as pd
 
@@ -194,7 +198,7 @@ class ReportManager:
     # ------------------------------------------------------------------
     # Stock alert helper
     # ------------------------------------------------------------------
-    def _check_stock_alert(self, conn: sqlite3.Connection) -> tuple[int, int]:
+    def _check_stock_alert(self, conn: sqlite3.Connection) -> Tuple[int, int]:
         """Check if stock is below the minimum alert threshold."""
         cursor = conn.cursor()
         cursor.execute("SELECT min_stock_alert FROM settings LIMIT 1")
@@ -1240,7 +1244,7 @@ class ReportManager:
 
     def stream_ream_report(self, user: str = None, role: str = None, form: Optional[str] = None,
                            stream: Optional[str] = None, start_date: Optional[str] = None,
-                           end_date: Optional[str] = None) -> Dict[str, any]:
+                           end_date: Optional[str] = None) -> Dict[str, Any]:
         self.require_auth(required_role='admin') 
         """
         Generate a detailed ream report for a specific Form + Stream.

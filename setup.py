@@ -24,8 +24,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Configuration
-PYTHON_VERSION = "3.11.9"
-PYTHON_EMBED_ZIP = "python-embed.zip"
+PYTHON_VERSION = "3.8.10"
+PYTHON_EMBED_ZIP = f"python-{PYTHON_VERSION}-embed-amd64.zip"
 INNO_SETUP_COMPILER = os.environ.get("INNO_SETUP_COMPILER", "iscc")  # Use 'iscc' on PATH or set INNO_SETUP_COMPILER environment variable
 PROJECT_ROOT = Path(__file__).parent
 DIST_DIR = PROJECT_ROOT / "dist"
@@ -190,20 +190,30 @@ reg query "HKLM\\SOFTWARE\\Microsoft\\VisualStudio\\14.0\\VC\\Runtimes\\x64" /v 
 if %errorlevel% neq 0 (
     reg query "HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\VisualStudio\\14.0\\VC\\Runtimes\\x64" /v Version >nul 2>&1
     if %errorlevel% neq 0 (
-        echo Visual C++ Redistributable not found. Installing...
-        
+        echo Visual C++ Redistributable not found.
+
         :: Try to download and install VC++ Redistributable
-        :: Note: For offline installation, include VC++ Redistributable installer in packages folder
         if exist "packages\\vcredist_x64.exe" (
             echo Installing VC++ Redistributable from local package...
             packages\\vcredist_x64.exe /install /quiet /norestart
             timeout /t 10 /nobreak >nul
         ) else (
-            echo WARNING: VC++ Redistributable not found in packages folder.
-            echo The application may require Microsoft Visual C++ Redistributable.
-            echo Download from: https://aka.ms/vs/17/release/vc_redist.x64.exe
+            echo Downloading Visual C++ Redistributable...
+            powershell -Command "Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vc_redist.x64.exe' -OutFile 'packages\\vcredist_x64.exe' -UseBasicParsing"
+            if exist "packages\\vcredist_x64.exe" (
+                echo Installing VC++ Redistributable...
+                packages\\vcredist_x64.exe /install /quiet /norestart
+                timeout /t 10 /nobreak >nul
+            ) else (
+                echo WARNING: Failed to download VC++ Redistributable.
+                echo The application may require Microsoft Visual C++ Redistributable.
+                echo Download manually from: https://aka.ms/vs/17/release/vc_redist.x64.exe
+            )
         )
     ) else (
+        echo Visual C++ Redistributable already installed.
+    )
+) else (
     echo Visual C++ Redistributable already installed.
 )
 
@@ -211,7 +221,14 @@ if %errorlevel% neq 0 (
 :: Extract Python embeddable
 :: ============================================================
 echo Extracting Python environment...
-powershell -Command "Expand-Archive -Path 'python-embed.zip' -DestinationPath 'python' -Force"
+if exist "python-embed.zip" (
+    powershell -Command "Expand-Archive -Path 'python-embed.zip' -DestinationPath 'python' -Force"
+) else if exist "python-{PYTHON_VERSION.replace('.', '')}-embed-amd64.zip" (
+    powershell -Command "Expand-Archive -Path 'python-{PYTHON_VERSION.replace('.', '')}-embed-amd64.zip' -DestinationPath 'python' -Force"
+) else (
+    echo ERROR: Python embeddable zip not found. Please download python-{PYTHON_VERSION}-embed-amd64.zip and place it in the project root.
+    exit /b 1
+)
 
 :: Update python.ini to enable site-packages
 echo [Defaults] > python\\python{PYTHON_VERSION.replace('.', '')}._pth
