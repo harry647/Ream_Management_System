@@ -8,7 +8,6 @@ from PIL import Image
 import logging
 import sqlite3
 from datetime import datetime
-import bcrypt
 
 # Configure logging
 os.makedirs("logs", exist_ok=True)
@@ -29,7 +28,34 @@ except AttributeError:
 
 # Configuration
 PYTHON_VERSION = "3.8.10"
-INNO_SETUP_COMPILER = os.environ.get("INNO_SETUP_COMPILER", "iscc")  # Use 'iscc' on PATH or set INNO_SETUP_COMPILER environment variable
+PYTHON_CMD = os.environ.get("PYTHON_CMD")
+INNO_SETUP_COMPILER = os.environ.get("INNO_SETUP_COMPILER", "iscc")
+def get_python_cmd():
+    """Resolve the Python 3.8 command to use for pip/pyinstaller."""
+    if PYTHON_CMD:
+        return PYTHON_CMD
+    import sys
+    if sys.version_info[:2] == (3, 8):
+        return sys.executable
+    import shutil
+    for candidate in [f"py -{PYTHON_VERSION[:3]}", "python3.8", "python38"]:
+        if shutil.which(candidate.split()[0]):
+            return candidate
+    raise RuntimeError(
+        f"Python {PYTHON_VERSION} is required. "
+        "Run with: py -3.8 setup.py  or  set PYTHON_CMD=python3.8"
+    )
+
+def check_python_version():
+    """Verify the build is running under Python 3.8.x."""
+    import sys
+    if sys.version_info[:2] != (3, 8):
+        print(f"WARNING: setup.py is running under Python {sys.version_info[:2]}, "
+              f"but the project requires Python {PYTHON_VERSION}.")
+        print("Attempting to re-launch with py -3.8...")
+        import subprocess
+        cmd = ["py", f"-{PYTHON_VERSION[:3]}"] + sys.argv
+        sys.exit(subprocess.run(cmd).returncode)
 PROJECT_ROOT = Path(__file__).parent
 DIST_DIR = PROJECT_ROOT / "dist"
 PACKAGES_DIR = PROJECT_ROOT / "packages"
@@ -133,7 +159,8 @@ def prepare_offline_packages():
         logger.error(f"{requirements} not found")
         raise FileNotFoundError(f"{requirements} not found")
 
-    pip_install = [sys.executable, "-m", "pip", "install", "-r", str(requirements)]
+    python_cmd = get_python_cmd()
+    pip_install = [python_cmd, "-m", "pip", "install", "-r", str(requirements)]
     try:
         subprocess.run(pip_install, check=True)
         logger.info("Installed dependencies from requirements.txt")
@@ -256,13 +283,18 @@ exit /b 0
 
 def run_pyinstaller():
     """Run PyInstaller to create ReamManagement.exe."""
+    python_cmd = get_python_cmd()
     if DIST_DIR.exists():
         shutil.rmtree(DIST_DIR)
         logger.info(f"Cleared existing {DIST_DIR}")
     DIST_DIR.mkdir(exist_ok=True)
 
+    # Ensure PyInstaller is available in the target Python environment
+    logger.info("Ensuring PyInstaller is installed...")
+    subprocess.run([python_cmd, "-m", "pip", "install", "pyinstaller==5.13.2"], check=True)
+
     cmd = [
-        "pyinstaller",
+        python_cmd, "-m", "PyInstaller",
         "--noconfirm",
         "--onefile",
         f"--add-data=config;config",
@@ -296,6 +328,13 @@ def run_inno_setup():
     try:
         subprocess.run([INNO_SETUP_COMPILER, str(ISS_FILE)], check=True)
         logger.info("Inno Setup compilation successful")
+    except FileNotFoundError:
+        logger.error(
+            f"Inno Setup compiler '{INNO_SETUP_COMPILER}' not found. "
+            "Install Inno Setup from https://jrsoftware.org/isinfo.php and add it to PATH, "
+            "or set INNO_SETUP_COMPILER environment variable."
+        )
+        raise
     except subprocess.CalledProcessError as e:
         logger.error(f"Inno Setup compilation failed: {e}")
         raise
@@ -303,6 +342,7 @@ def run_inno_setup():
 def main():
     """Main function to orchestrate the build process."""
     try:
+        check_python_version()
         # Step 1: Generate license and readme files
         generate_license_file()
         generate_readme_file()

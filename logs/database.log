@@ -2104,3 +2104,147 @@ sqlite3.OperationalError: no such table: main.json_each
 2026-08-06 19:22:51,734 - INFO - Refreshed data for Issues tab
 2026-08-06 19:22:51,741 - INFO - UserManager initialized for C:\Users\USER\Ream_Management_System\database/ream_management.db
 2026-08-06 19:22:51,749 - INFO - Successfully validated report_config.json
+2026-08-06 19:45:22,431 - INFO - Using logs directory: C:\Users\USER\Ream_Management_System\logs
+2026-08-06 19:45:22,434 - INFO - Initializing ConnectionPool for database/ream_management.db with max_connections=25
+2026-08-06 19:45:22,435 - INFO - Initialized connection pool for database/ream_management.db with 25 max connections
+2026-08-06 19:45:22,680 - INFO - Using ADMIN_PASSWORD from environment
+2026-08-06 19:45:22,968 - INFO - Production database schema v1.0.0 initialized securely.
+2026-08-06 19:45:22,974 - INFO - Stock reconciled.
+2026-08-06 19:45:22,974 - INFO - Database fully initialized at database/ream_management.db
+2026-08-06 19:45:22,974 - INFO - Database initialised at database/ream_management.db
+2026-08-06 19:45:22,975 - INFO - UserManager initialized for C:\Users\USER\Ream_Management_System\database/ream_management.db
+2026-08-06 19:45:22,979 - INFO - Adding job tentatively -- it will be properly scheduled when the scheduler starts
+2026-08-06 19:45:22,983 - INFO - Added job "Year-end Student Auto-Promotion" to job store "default"
+2026-08-06 19:45:22,983 - INFO - Scheduler started
+2026-08-06 19:45:22,985 - INFO - Auto-promotion scheduled for 12/31 at 23:55
+2026-08-06 19:45:22,985 - INFO - Launching GUI
+2026-08-06 19:45:23,077 - INFO - Initializing MainWindow
+2026-08-06 19:45:23,077 - INFO - Set theme: dark/green
+2026-08-06 19:45:23,077 - INFO - UserManager initialized for C:\Users\USER\Ream_Management_System\database/ream_management.db
+2026-08-06 19:45:23,237 - INFO - Added placeholder tab with scrollable frame: Students
+2026-08-06 19:45:23,243 - INFO - Added placeholder tab with scrollable frame: Reams
+2026-08-06 19:45:23,252 - INFO - Added placeholder tab with scrollable frame: Issues
+2026-08-06 19:45:23,258 - INFO - Added placeholder tab with scrollable frame: Reports
+2026-08-06 19:45:23,266 - INFO - Added placeholder tab with scrollable frame: Users
+2026-08-06 19:45:23,277 - INFO - Initializing LoginWindow
+2026-08-06 19:45:23,330 - INFO - Auto-filled login for harry
+2026-08-06 19:45:23,330 - INFO - LoginWindow UI initialized
+2026-08-06 19:45:23,330 - INFO - LoginWindow shown, MainWindow withdrawn
+2026-08-06 19:45:43,312 - INFO - Login OK: harry
+2026-08-06 19:45:43,376 - INFO - Welcome, harry (admin)
+2026-08-06 19:45:43,379 - INFO - UserManager initialized for C:\Users\USER\Ream_Management_System\database/ream_management.db
+2026-08-06 19:45:43,380 - INFO - ReportManager created after login
+2026-08-06 19:45:43,670 - INFO - Login OK: harry
+2026-08-06 19:45:43,670 - INFO - ReportManager: User 'harry' logged in
+2026-08-06 19:45:43,670 - INFO - ReportManager session set for harry using password
+2026-08-06 19:45:43,670 - INFO - ReportManager session set for harry using hash fallback
+2026-08-06 19:45:43,670 - INFO - ReportManager session set for harry
+2026-08-06 19:45:43,671 - INFO - UserManager initialized for C:\Users\USER\Ream_Management_System\database/ream_management.db
+2026-08-06 19:45:44,214 - INFO - Fetched 0 students by harry
+2026-08-06 19:45:44,249 - INFO - Loaded 0 student records
+2026-08-06 19:45:44,250 - INFO - Loaded 0 records for harry
+2026-08-06 19:45:44,315 - INFO - StudentsTab GUI initialized
+2026-08-06 19:45:44,315 - INFO - Initialized StudentsTab with username=harry, role=admin
+2026-08-06 19:45:44,316 - INFO - StudentsTab initialized; data will load after login
+2026-08-06 19:45:44,316 - INFO - Initialized Students tab with username=harry, role=admin
+2026-08-06 19:45:44,317 - INFO - Fetched 0 students by harry
+2026-08-06 19:45:44,339 - INFO - Loaded 0 student records
+2026-08-06 19:45:44,340 - INFO - Loaded 0 records for harry
+2026-08-06 19:45:44,341 - INFO - Refreshed data for Students tab
+2026-08-06 19:45:44,357 - INFO - UserManager initialized for C:\Users\USER\Ream_Management_System\database/ream_management.db
+2026-08-06 19:45:44,358 - INFO - UserManager initialized for C:\Users\USER\Ream_Management_System\database/ream_management.db
+2026-08-06 19:45:44,862 - INFO - Audit logged: DISPLAY (fetch_all_records) by harry
+2026-08-06 19:45:44,862 - INFO - Fetched 0 ream records by harry
+2026-08-06 19:45:44,883 - INFO - Audit logged: DISPLAY (fetch_purchase_records) by harry
+2026-08-06 19:45:44,883 - INFO - Fetched 0 purchase records by harry
+2026-08-06 19:45:44,884 - INFO - Loaded 0 ream records and 0 purchase records
+2026-08-06 19:45:44,884 - INFO - Loaded 0 ream records and 0 purchase records for harry
+2026-08-06 19:45:44,921 - INFO - ReamsTab GUI initialized
+2026-08-06 19:45:44,922 - INFO - Initialized ReamsTab with username=harry, role=admin
+2026-08-06 19:45:44,922 - INFO - ReamsTab initialized; data will load after login
+2026-08-06 19:45:44,923 - INFO - Initialized Reams tab with username=harry, role=admin
+2026-08-06 19:45:44,943 - INFO - Audit logged: DISPLAY (fetch_all_records) by harry
+2026-08-06 19:45:44,943 - INFO - Fetched 0 ream records by harry
+2026-08-06 19:45:44,965 - INFO - Audit logged: DISPLAY (fetch_purchase_records) by harry
+2026-08-06 19:45:44,965 - INFO - Fetched 0 purchase records by harry
+2026-08-06 19:45:44,966 - INFO - Loaded 0 ream records and 0 purchase records
+2026-08-06 19:45:44,966 - INFO - Loaded 0 ream records and 0 purchase records for harry
+2026-08-06 19:45:44,967 - INFO - Refreshed data for Reams tab
+2026-08-06 19:45:44,987 - INFO - UserManager initialized for C:\Users\USER\Ream_Management_System\database/ream_management.db
+2026-08-06 19:45:44,987 - INFO - UserManager initialized for C:\Users\USER\Ream_Management_System\database/ream_management.db
+2026-08-06 19:45:44,987 - INFO - UserManager initialized for C:\Users\USER\Ream_Management_System\database/ream_management.db
+2026-08-06 19:45:44,988 - INFO - UserManager initialized for C:\Users\USER\Ream_Management_System\database/ream_management.db
+2026-08-06 19:45:44,988 - INFO - UserManager initialized for C:\Users\USER\Ream_Management_System\database/ream_management.db
+2026-08-06 19:45:45,174 - INFO - Audit logged: DISPLAY (get_all_issues) by harry
+2026-08-06 19:45:45,176 - INFO - Fetched 0 issue records by harry
+2026-08-06 19:45:45,179 - INFO - Loaded 0 issue records
+2026-08-06 19:45:45,180 - INFO - Loaded 0 issue records by user harry
+2026-08-06 19:45:45,219 - INFO - IssuesTab GUI initialized
+2026-08-06 19:45:45,220 - INFO - Initializing IssuesTab with username=harry, role=admin
+2026-08-06 19:45:45,221 - INFO - IssuesTab initialized; data will load after login
+2026-08-06 19:45:45,221 - INFO - Initialized Issues tab with username=harry, role=admin
+2026-08-06 19:45:45,240 - INFO - Audit logged: DISPLAY (get_all_issues) by harry
+2026-08-06 19:45:45,241 - INFO - Fetched 0 issue records by harry
+2026-08-06 19:45:45,242 - INFO - Loaded 0 issue records
+2026-08-06 19:45:45,242 - INFO - Loaded 0 issue records by user harry
+2026-08-06 19:45:45,243 - INFO - Refreshed IssuesTab data
+2026-08-06 19:45:45,253 - INFO - Refreshed IssuesTab data
+2026-08-06 19:45:45,254 - INFO - Refreshed data for Issues tab
+2026-08-06 19:45:45,265 - INFO - UserManager initialized for C:\Users\USER\Ream_Management_System\database/ream_management.db
+2026-08-06 19:45:45,277 - INFO - Successfully validated report_config.json
+2026-08-06 19:45:45,568 - INFO - ReportsTab GUI initialized
+2026-08-06 19:45:45,569 - INFO - Initializing ReportsTab with username=harry, role=admin
+2026-08-06 19:45:45,570 - INFO - ReportsTab initialized; data will load after login
+2026-08-06 19:45:45,570 - INFO - Initialized Reports tab with username=harry, role=admin
+2026-08-06 19:45:45,570 - INFO - ReportsTab user updated: harry (admin)
+2026-08-06 19:45:45,571 - INFO - ReportsTab authorized as harry (admin)
+2026-08-06 19:45:45,572 - INFO - Refreshed ReportsTab data
+2026-08-06 19:45:45,584 - INFO - Refreshed ReportsTab data
+2026-08-06 19:45:45,585 - INFO - Refreshed data for Reports tab
+2026-08-06 19:45:45,597 - INFO - UserManager initialized for C:\Users\USER\Ream_Management_System\database/ream_management.db
+2026-08-06 19:45:45,669 - INFO - All users fetched by harry
+2026-08-06 19:45:45,670 - INFO - Loaded 2 user records
+2026-08-06 19:45:45,670 - INFO - Loaded 2 user records for user harry
+2026-08-06 19:45:45,698 - INFO - UserTab GUI initialized
+2026-08-06 19:45:45,698 - INFO - Initialized UserTab with username=harry, role=admin
+2026-08-06 19:45:45,699 - INFO - UserTab initialized; data will load after login
+2026-08-06 19:45:45,699 - INFO - Initialized Users tab with username=harry, role=admin
+2026-08-06 19:45:45,719 - INFO - All users fetched by harry
+2026-08-06 19:45:45,720 - INFO - Loaded 2 user records
+2026-08-06 19:45:45,720 - INFO - Loaded 2 user records for user harry
+2026-08-06 19:45:45,721 - INFO - Refreshed data for Users tab
+2026-08-06 19:45:45,787 - INFO - Audit logged: DISPLAY (get_min_stock_alert) by harry
+2026-08-06 19:45:45,787 - INFO - Fetched min stock alert (10) by harry
+2026-08-06 19:45:45,806 - INFO - Audit logged: REPORT (stock_summary) by harry
+2026-08-06 19:45:45,806 - INFO - Stock summary generated by harry
+2026-08-06 19:45:45,826 - INFO - Audit logged: REPORT (overview) by harry
+2026-08-06 19:45:45,826 - INFO - Generated overview report by harry
+2026-08-06 19:45:45,827 - INFO - Updated stock overview
+2026-08-06 19:45:45,916 - INFO - Started fade-in animation for Students
+2026-08-06 19:45:45,916 - INFO - Fetched 0 students by harry
+2026-08-06 19:45:45,937 - INFO - Loaded 0 student records
+2026-08-06 19:45:45,937 - INFO - Loaded 0 records for harry
+2026-08-06 19:45:45,938 - INFO - Refreshed data for Students tab
+2026-08-06 19:45:45,953 - INFO - Switched to Students tab
+2026-08-06 19:45:45,953 - INFO - MainWindow deiconified and initialized after login
+2026-08-06 19:45:45,954 - INFO - Auto-login successful for harry
+2026-08-06 19:45:45,954 - INFO - Auto-login: harry
+2026-08-06 19:45:46,116 - INFO - Audit logged: DISPLAY (get_min_stock_alert) by harry
+2026-08-06 19:45:46,116 - INFO - Fetched min stock alert (10) by harry
+2026-08-06 19:45:46,135 - INFO - Audit logged: REPORT (stock_summary) by harry
+2026-08-06 19:45:46,135 - INFO - Stock summary generated by harry
+2026-08-06 19:45:46,155 - INFO - Audit logged: REPORT (overview) by harry
+2026-08-06 19:45:46,156 - INFO - Generated overview report by harry
+2026-08-06 19:45:46,158 - INFO - Updated stock overview
+2026-08-06 19:45:55,303 - INFO - Initializing SettingsWindow
+2026-08-06 19:45:55,449 - INFO - SettingsWindow with scroll initialized
+2026-08-06 19:45:55,450 - INFO - Settings window opened
+2026-08-06 19:45:55,450 - INFO - Settings window opened by harry
+2026-08-06 19:46:07,813 - INFO - Started fade-in animation for Users
+2026-08-06 19:46:07,898 - INFO - All users fetched by harry
+2026-08-06 19:46:07,899 - INFO - Loaded 2 user records
+2026-08-06 19:46:07,900 - INFO - Loaded 2 user records for user harry
+2026-08-06 19:46:07,900 - INFO - Refreshed data for Users tab
+2026-08-06 19:46:07,917 - INFO - Switched to Users tab
+2026-08-06 19:46:11,540 - INFO - Scheduler has been shut down
+2026-08-06 19:46:11,583 - INFO - Closed all connections in pool
