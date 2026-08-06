@@ -57,7 +57,8 @@ def load_config():
         },
         "logging": {
             "level": "INFO",
-            "file": os.path.join(get_logs_dir(), "main.log")
+            "file": os.path.join(get_logs_dir(), "main.log"),
+            "console": True
         },
         "features": {
             "undo_enabled": False,
@@ -96,6 +97,10 @@ def load_config():
                 if key not in config:
                     config[key] = value
                     logger.warning(f"Added missing config key: {key}")
+
+            # Ensure nested logging defaults (backward compatibility)
+            if "console" not in config.get("logging", {}):
+                config["logging"]["console"] = True
 
             # Persist the merged config
             with open(config_path, "w") as fw:
@@ -211,6 +216,13 @@ def main():
 
         # Re-apply logging level from config
         logging.getLogger().setLevel(getattr(logging, config["logging"]["level"]))
+
+        # Disable console logging in production if configured
+        if not config.get("logging", {}).get("console", True):
+            root = logging.getLogger()
+            for handler in list(root.handlers):
+                if isinstance(handler, logging.StreamHandler):
+                    root.removeHandler(handler)
 
         # ------------------------------------------------------------------
         # 1. Initialise system (DB, folders)

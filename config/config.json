@@ -6,7 +6,8 @@
     },
     "logging": {
         "level": "INFO",
-        "file": "logs/main.log"
+        "file": "logs/main.log",
+        "console": true
     },
     "features": {
         "undo_enabled": false,

@@ -553,11 +553,75 @@ def is_db_healthy() -> bool:
 # ===================================================================
 # 6. create_base_schema() – ALL FIXES APPLIED
 # ===================================================================
+def _json_extract_impl(json_str, path):
+    if not json_str:
+        return None
+    try:
+        data = json.loads(json_str)
+        key = path.lstrip('$.')
+        if isinstance(data, dict):
+            val = data.get(key)
+            if val is None:
+                return None
+            if isinstance(val, (int, float)):
+                return val
+            return str(val)
+        return None
+    except (json.JSONDecodeError, TypeError):
+        return None
+
+def _json_valid_impl(json_str):
+    if not json_str:
+        return 0
+    try:
+        json.loads(json_str)
+        return 1
+    except (json.JSONDecodeError, TypeError, ValueError):
+        return 0
+
+def _json_validate_form_data(json_str):
+    if not json_str:
+        return 0
+    try:
+        data = json.loads(json_str)
+        valid_keys = {'Form 1','Form 2','Form 3','Form 4','Grade 10','Grade 11','Grade 12'}
+        for key, value in data.items():
+            if key not in valid_keys:
+                return 0
+            if not isinstance(value, int) or value < 0:
+                return 0
+        return 1
+    except (json.JSONDecodeError, TypeError, ValueError):
+        return 0
+
+def _json_sum_up_to_form(json_str, form):
+    if not json_str:
+        return 0
+    try:
+        data = json.loads(json_str)
+        total = 0
+        form_order = ['Form 1','Form 2','Form 3','Form 4','Grade 10','Grade 11','Grade 12']
+        for f in form_order:
+            if f in data:
+                val = data[f]
+                if isinstance(val, (int, float)):
+                    total += int(val)
+            if f == form:
+                break
+        return total
+    except (json.JSONDecodeError, TypeError, ValueError):
+        return 0
+
 def create_base_schema():
     conn = None
     try:
         conn = get_db_connection()
         cur = conn.cursor()
+
+        conn.create_function('json_extract', 2, _json_extract_impl)
+        conn.create_function('json_valid', 1, _json_valid_impl)
+        conn.create_function('json_validate_form_data', 1, _json_validate_form_data)
+        conn.create_function('json_sum_up_to_form', 2, _json_sum_up_to_form)
 
         # Tables
         cur.execute("""
@@ -716,6 +780,7 @@ def create_base_schema():
 
         # Views
         cur.execute("CREATE VIEW IF NOT EXISTS student_ream_summary AS SELECT * FROM students;")
+        cur.execute("DROP VIEW IF EXISTS class_ream_summary;")
         cur.execute("""
         CREATE VIEW IF NOT EXISTS class_ream_summary AS
         SELECT
@@ -742,53 +807,47 @@ def create_base_schema():
         """)
 
         # Triggers
+        cur.execute("DROP TRIGGER IF EXISTS validate_settings_json;")
         cur.execute("""
         CREATE TRIGGER IF NOT EXISTS validate_settings_json
         BEFORE INSERT ON settings FOR EACH ROW
         WHEN NEW.ream_required_per_form IS NOT NULL
         BEGIN
             SELECT CASE
-                WHEN json_valid(NEW.ream_required_per_form) = 0 THEN RAISE(ABORT, 'Invalid JSON')
-                WHEN (SELECT COUNT(*) FROM json_each(NEW.ream_required_per_form)
-                      WHERE json_each.key NOT IN ('Form 1','Form 2','Form 3','Form 4','Grade 10','Grade 11','Grade 12')) > 0
-                    THEN RAISE(ABORT, 'Invalid key')
-                WHEN (SELECT COUNT(*) FROM json_each(NEW.ream_required_per_form)
-                      WHERE json_each.value NOT GLOB '[0-9]*' OR json_each.value < 0) > 0
-                    THEN RAISE(ABORT, 'Invalid value')
+                WHEN json_validate_form_data(NEW.ream_required_per_form) = 0 THEN RAISE(ABORT, 'Invalid JSON or invalid keys/values')
             END;
         END;
         """)
 
+        cur.execute("DROP TRIGGER IF EXISTS sync_student_total_required;")
         cur.execute("""
         CREATE TRIGGER IF NOT EXISTS sync_student_total_required
         AFTER INSERT ON students FOR EACH ROW
         BEGIN
             UPDATE students SET total_required = (
-                SELECT SUM(value) FROM (
-                    SELECT json_each.value
-                    FROM json_each((SELECT ream_required_per_form FROM settings WHERE setting_id = 1)) AS json_each
-                    WHERE (NEW.form LIKE 'Form%' AND json_each.key <= NEW.form AND json_each.key LIKE 'Form%')
-                       OR (NEW.form LIKE 'Grade%' AND json_each.key <= NEW.form AND json_each.key LIKE 'Grade%')
+                SELECT json_sum_up_to_form(
+                    (SELECT ream_required_per_form FROM settings WHERE setting_id = 1),
+                    NEW.form
                 )
             ) WHERE student_id = NEW.student_id;
         END;
         """)
 
+        cur.execute("DROP TRIGGER IF EXISTS sync_student_total_required_update;")
         cur.execute("""
         CREATE TRIGGER IF NOT EXISTS sync_student_total_required_update
         AFTER UPDATE OF form ON students FOR EACH ROW
         BEGIN
             UPDATE students SET total_required = (
-                SELECT SUM(value) FROM (
-                    SELECT json_each.value
-                    FROM json_each((SELECT ream_required_per_form FROM settings WHERE setting_id = 1)) AS json_each
-                    WHERE (NEW.form LIKE 'Form%' AND json_each.key <= NEW.form AND json_each.key LIKE 'Form%')
-                       OR (NEW.form LIKE 'Grade%' AND json_each.key <= NEW.form AND json_each.key LIKE 'Grade%')
+                SELECT json_sum_up_to_form(
+                    (SELECT ream_required_per_form FROM settings WHERE setting_id = 1),
+                    NEW.form
                 )
             ) WHERE student_id = NEW.student_id;
         END;
         """)
 
+        cur.execute("DROP TRIGGER IF EXISTS after_reams_brought_insert_stock;")
         cur.execute("""
         CREATE TRIGGER IF NOT EXISTS after_reams_brought_insert_stock
         AFTER INSERT ON reams_brought FOR EACH ROW
@@ -799,6 +858,7 @@ def create_base_schema():
         END;
         """)
 
+        cur.execute("DROP TRIGGER IF EXISTS after_reams_purchased_insert_stock;")
         cur.execute("""
         CREATE TRIGGER IF NOT EXISTS after_reams_purchased_insert_stock
         AFTER INSERT ON reams_purchased FOR EACH ROW
@@ -810,6 +870,7 @@ def create_base_schema():
         """)
 
         # Fix #4: Use summary_id = 1
+        cur.execute("DROP TRIGGER IF EXISTS update_summary_brought;")
         cur.execute("""
         CREATE TRIGGER IF NOT EXISTS update_summary_brought
         AFTER INSERT ON reams_brought FOR EACH ROW
@@ -822,6 +883,7 @@ def create_base_schema():
         END;
         """)
 
+        cur.execute("DROP TRIGGER IF EXISTS update_summary_purchased;")
         cur.execute("""
         CREATE TRIGGER IF NOT EXISTS update_summary_purchased
         AFTER INSERT ON reams_purchased FOR EACH ROW
@@ -834,6 +896,7 @@ def create_base_schema():
         END;
         """)
 
+        cur.execute("DROP TRIGGER IF EXISTS update_summary_issued;")
         cur.execute("""
         CREATE TRIGGER IF NOT EXISTS update_summary_issued
         AFTER INSERT ON reams_issued FOR EACH ROW
