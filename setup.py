@@ -302,6 +302,7 @@ def run_pyinstaller():
     cmd = [
         python_cmd, "-m", "PyInstaller",
         "--noconfirm",
+        "--windowed",
         "--onefile",
         f"--add-data=config;config",
         f"--add-data=database;database",
