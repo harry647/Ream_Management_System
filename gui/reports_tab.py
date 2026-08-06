@@ -6,7 +6,7 @@ from modules.report_manager import ReportManager
 from modules.student_manager import StudentManager
 from gui.utils import show_error, show_info
 from reports.report_export import ReportExporter
-from modules.db_setup import get_logs_dir
+from modules.db_setup import get_logs_dir, get_bundle_dir
 import os
 import subprocess
 import sys
@@ -127,7 +127,8 @@ class ReportWindow(ctk.CTkToplevel):
         excel_button.pack(side="left", padx=5, fill="x", expand=True)
 
         # Print Button
-        print_icon = ctk.CTkImage(light_image=Image.open("icons/printer.png"), size=(16, 16))
+        bundle_dir = get_bundle_dir()
+        print_icon = ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "printer.png")), size=(16, 16))
         print_button = ctk.CTkButton(
             button_frame,
             text="Print",

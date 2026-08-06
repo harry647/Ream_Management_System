@@ -98,7 +98,7 @@ class LoginWindow(ctk.CTkToplevel):
         self.remember_check.pack(pady=5)
 
         # Login button
-        login_icon = ctk.CTkImage(light_image=Image.open("icons/login.png"), size=(16, 16))
+        login_icon = ctk.CTkImage(light_image=Image.open(os.path.join(get_bundle_dir(), "icons", "login.png")), size=(16, 16))
         self.login_button = ctk.CTkButton(
             frame, text="Login", image=login_icon, compound="left",
             command=self.authenticate, fg_color="#2B6CB0", hover_color="#1E4E79",
@@ -249,30 +249,31 @@ class MainWindow(ctk.CTk):
         self.user_mgr = UserManager(self.db_name)
 
         # Load icons
+        bundle_dir = get_bundle_dir()
         self.icons = {
-            'students': ctk.CTkImage(light_image=Image.open("icons/students.png"), size=(16, 16)),
-            'reams': ctk.CTkImage(light_image=Image.open("icons/reams.png"), size=(16, 16)),
-            'issues': ctk.CTkImage(light_image=Image.open("icons/issues.png"), size=(16, 16)),
-            'reports': ctk.CTkImage(light_image=Image.open("icons/report.png"), size=(16, 16)),
-            'users': ctk.CTkImage(light_image=Image.open("icons/users.png"), size=(16, 16)),
-            'theme_toggle': ctk.CTkImage(light_image=Image.open("icons/theme_toggle.png"), size=(16, 16)),
-            'exit': ctk.CTkImage(light_image=Image.open("icons/exit.png"), size=(16, 16)),
-            'logout': ctk.CTkImage(light_image=Image.open("icons/logout.png"), size=(16, 16)),
-            'login': ctk.CTkImage(light_image=Image.open("icons/login.png"), size=(16, 16)),
-            'add': ctk.CTkImage(light_image=Image.open("icons/add.png"), size=(16, 16)),
-            'edit': ctk.CTkImage(light_image=Image.open("icons/edit.png"), size=(16, 16)),
-            'delete': ctk.CTkImage(light_image=Image.open("icons/delete.png"), size=(16, 16)),
-            'save': ctk.CTkImage(light_image=Image.open("icons/save.png"), size=(16, 16)),
-            'cancel': ctk.CTkImage(light_image=Image.open("icons/cancel.png"), size=(16, 16)),
-            'report': ctk.CTkImage(light_image=Image.open("icons/report.png"), size=(16, 16)),
-            'export': ctk.CTkImage(light_image=Image.open("icons/export.png"), size=(16, 16)),
-            'dashboard': ctk.CTkImage(light_image=Image.open("icons/dashboard.png"), size=(16, 16)),
-            'chart': ctk.CTkImage(light_image=Image.open("icons/chart.png"), size=(16, 16)),
-            'refresh': ctk.CTkImage(light_image=Image.open("icons/refresh.png"), size=(16, 16)),
-            'search': ctk.CTkImage(light_image=Image.open("icons/search.png"), size=(16, 16)),
-            'settings': ctk.CTkImage(light_image=Image.open("icons/settings.png"), size=(16, 16)),
-            'calendar': ctk.CTkImage(light_image=Image.open("icons/calendar.png"), size=(16, 16)),
-            'help': ctk.CTkImage(light_image=Image.open("icons/help.png"), size=(16, 16))
+            'students': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "students.png")), size=(16, 16)),
+            'reams': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "reams.png")), size=(16, 16)),
+            'issues': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "issues.png")), size=(16, 16)),
+            'reports': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "report.png")), size=(16, 16)),
+            'users': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "users.png")), size=(16, 16)),
+            'theme_toggle': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "theme_toggle.png")), size=(16, 16)),
+            'exit': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "exit.png")), size=(16, 16)),
+            'logout': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "logout.png")), size=(16, 16)),
+            'login': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "login.png")), size=(16, 16)),
+            'add': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "add.png")), size=(16, 16)),
+            'edit': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "edit.png")), size=(16, 16)),
+            'delete': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "delete.png")), size=(16, 16)),
+            'save': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "save.png")), size=(16, 16)),
+            'cancel': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "cancel.png")), size=(16, 16)),
+            'report': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "report.png")), size=(16, 16)),
+            'export': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "export.png")), size=(16, 16)),
+            'dashboard': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "dashboard.png")), size=(16, 16)),
+            'chart': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "chart.png")), size=(16, 16)),
+            'refresh': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "refresh.png")), size=(16, 16)),
+            'search': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "search.png")), size=(16, 16)),
+            'settings': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "settings.png")), size=(16, 16)),
+            'calendar': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "calendar.png")), size=(16, 16)),
+            'help': ctk.CTkImage(light_image=Image.open(os.path.join(bundle_dir, "icons", "help.png")), size=(16, 16))
         }
 
         # Styling for Treeview
@@ -853,7 +854,7 @@ class MainWindow(ctk.CTk):
         try:
             ctk.set_appearance_mode(appearance_mode)
             ctk.set_default_color_theme(color_theme)
-            os.makedirs("config", exist_ok=True)
+            os.makedirs(get_config_dir(), exist_ok=True)
             with open(self.theme_file, "w") as f:
                 json.dump({"appearance_mode": appearance_mode, "color_theme": color_theme}, f)
             for tab_name in self.tabs:

@@ -35,5 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['C:\\Users\\Harry\\Ream_Management_System\\icons\\login.ico'],
+    icon=['icons\\login.ico'],
 )

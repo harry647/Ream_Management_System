@@ -148,7 +148,7 @@ def prepare_offline_packages():
         try:
             subprocess.run(
                 ["powershell", "-Command",
-                 f"Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vc_redist.x64.exe' "
+                 f"Invoke-WebRequest -Uri 'https://aka.ms/vs/16/release/vc_redist.x64.exe' "
                  f"-OutFile '{vcredist_path}' -UseBasicParsing"],
                 check=True
             )
@@ -183,7 +183,7 @@ if %errorlevel% neq 0 (
             timeout /t 10 /nobreak >nul
         ) else (
             echo Downloading Visual C++ Redistributable...
-            powershell -Command "Invoke-WebRequest -Uri 'https://aka.ms/vs/17/release/vc_redist.x64.exe' -OutFile 'vcredist\\vcredist_x64.exe' -UseBasicParsing"
+            powershell -Command "Invoke-WebRequest -Uri 'https://aka.ms/vs/16/release/vc_redist.x64.exe' -OutFile 'vcredist\\vcredist_x64.exe' -UseBasicParsing"
             if exist "vcredist\\vcredist_x64.exe" (
                 echo Installing VC++ Redistributable...
                 vcredist\\vcredist_x64.exe /install /quiet /norestart
@@ -191,7 +191,7 @@ if %errorlevel% neq 0 (
             ) else (
                 echo WARNING: Failed to download VC++ Redistributable.
                 echo The application may require Microsoft Visual C++ Redistributable.
-                echo Download manually from: https://aka.ms/vs/17/release/vc_redist.x64.exe
+                echo Download manually from: https://aka.ms/vs/16/release/vc_redist.x64.exe
             )
         )
     ) else (
@@ -239,7 +239,7 @@ echo Setup complete!
 echo.
 echo IMPORTANT: If the application fails to start, please install:
 echo   Microsoft Visual C++ Redistributable from:
-echo   https://aka.ms/vs/17/release/vc_redist.x64.exe
+echo   https://aka.ms/vs/16/release/vc_redist.x64.exe
 echo ============================================================
 echo.
 

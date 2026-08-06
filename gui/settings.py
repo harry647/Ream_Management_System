@@ -375,7 +375,7 @@ class SettingsWindow(ctk.CTkToplevel):
             conn.close()
             
             # Save theme to theme.json
-            os.makedirs("config", exist_ok=True)
+            os.makedirs(get_config_dir(), exist_ok=True)
             with open(self.theme_file, "w") as f:
                 json.dump({"appearance_mode": appearance_mode, "color_theme": color_theme}, f)
             
@@ -448,7 +448,7 @@ class SettingsWindow(ctk.CTkToplevel):
                 conn.close()
                 
                 # Save default theme to theme.json
-                os.makedirs("config", exist_ok=True)
+                os.makedirs(get_config_dir(), exist_ok=True)
                 with open(self.theme_file, "w") as f:
                     json.dump({
                         "appearance_mode": default_settings['appearance_mode'],

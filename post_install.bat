@@ -18,15 +18,15 @@ if %errorlevel% neq 0 (
         echo Visual C++ Redistributable not found. Installing...
         
         :: Try to download and install VC++ Redistributable
-        :: Note: For offline installation, include VC++ Redistributable installer in packages folder
-        if exist "packages\vcredist_x64.exe" (
+        :: Note: For offline installation, include VC++ Redistributable installer in vcredist folder
+        if exist "vcredist\vcredist_x64.exe" (
             echo Installing VC++ Redistributable from local package...
-            packages\vcredist_x64.exe /install /quiet /norestart
+            vcredist\vcredist_x64.exe /install /quiet /norestart
             timeout /t 10 /nobreak >nul
         ) else (
-            echo WARNING: VC++ Redistributable not found in packages folder.
+            echo WARNING: VC++ Redistributable not found in vcredist folder.
             echo The application may require Microsoft Visual C++ Redistributable.
-            echo Download from: https://aka.ms/vs/17/release/vc_redist.x64.exe
+            echo Download from: https://aka.ms/vs/16/release/vc_redist.x64.exe
         )
     ) else (
     echo Visual C++ Redistributable already installed.
@@ -50,7 +50,7 @@ echo Setup complete!
 echo.
 echo IMPORTANT: If the application fails to start, please install:
 echo   Microsoft Visual C++ Redistributable from:
-echo   https://aka.ms/vs/17/release/vc_redist.x64.exe
+echo   https://aka.ms/vs/16/release/vc_redist.x64.exe
 echo ============================================================
 echo.
 

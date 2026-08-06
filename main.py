@@ -123,9 +123,9 @@ def load_config():
 def initialize_system(config):
     """Create required folders **and** initialise the DB pool + schema."""
     try:
-        os.makedirs("logs", exist_ok=True)
-        os.makedirs("database", exist_ok=True)
-        os.makedirs("config", exist_ok=True)
+        os.makedirs(get_logs_dir(), exist_ok=True)
+        os.makedirs(os.path.dirname(get_database_path()), exist_ok=True)
+        os.makedirs(get_config_dir(), exist_ok=True)
 
         # ------------------------------------------------------------------
         # 1. Initialise the **global** connection pool + tables + migrations
