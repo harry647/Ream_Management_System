@@ -130,7 +130,7 @@ def initialize_system(config):
         # ------------------------------------------------------------------
         # 1. Initialise the **global** connection pool + tables + migrations
         # ------------------------------------------------------------------
-        db_path = config["database_path"]
+        db_path = get_database_path()
         init_database(db_path)                     
         logger.info(f"Database initialised at {db_path}")
 

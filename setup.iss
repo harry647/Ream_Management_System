@@ -43,7 +43,6 @@ Source: "database\*"; DestDir: "{app}\database"; Flags: ignoreversion recursesub
 Source: "gui\*"; DestDir: "{app}\gui"; Flags: ignoreversion recursesubdirs
 Source: "help.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "icons\*"; DestDir: "{app}\icons"; Flags: ignoreversion recursesubdirs
-Source: "logs\*"; DestDir: "{app}\logs"; Flags: ignoreversion recursesubdirs
 Source: "modules\*"; DestDir: "{app}\modules"; Flags: ignoreversion recursesubdirs
 Source: "reports\*"; DestDir: "{app}\reports"; Flags: ignoreversion recursesubdirs
 Source: "requirements.txt"; DestDir: "{app}"; Flags: ignoreversion

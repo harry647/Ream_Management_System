@@ -21,6 +21,12 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+def _shutdown_logging():
+    """Close all log handlers to release file locks before running Inno Setup."""
+    for handler in logging.root.handlers[:]:
+        handler.close()
+        logging.root.removeHandler(handler)
+
 try:
     LANCZOS = Image.LANCZOS
 except AttributeError:
@@ -365,6 +371,7 @@ def main():
         run_pyinstaller()
 
         # Step 7: Run Inno Setup
+        _shutdown_logging()
         run_inno_setup()
 
         logger.info("Build process completed successfully")
